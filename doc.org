@@ -18,27 +18,27 @@
 | delete a course          | DELETE | lookup: =cid=                          |               | =/<cid>/=        |
 
 *** Lesson
-| description                                                        | action | payload                          | response, 200 | URI =/lessons= +         |
-|--------------------------------------------------------------------+--------+----------------------------------+---------------+--------------------------|
-| create a lesson                                                    | POST   | all fields required except =cid= | =lid=         | =/create/=               |
-| retrieve a lesson                                                  | GET    | lookup: =lid=                    |               | =/<lid>/=                |
-| retrieve list of all lessons                                       | GET    | N/A                              |               | =/=                      |
-| retrieve list of all lessons associated with a course              | GET    | lookup: =cid=                    |               | =/<cid>/=                |
-| retrieve lesson associated with a course by lesson sequence number | GET    | lookup: =cid=, =lessonSeqNum=    |               | =/<cid>/<lessonSeqNum>/= |
-| update a lesson                                                    | PUT    | lookup: =lid=                    |               | =/<lid>/=                |
-| delete a lesson                                                    | DELETE | lookup: =lid=                    |               | =/<lid>/=                |
+| description                                                       | action | payload                          | response, 200 | URI =/lessons= +         |
+|-------------------------------------------------------------------+--------+----------------------------------+---------------+--------------------------|
+| create a lesson                                                   | POST   | all fields required except =cid= | =lid=         | =/create/=               |
+| retrieve a lesson                                                 | GET    | lookup: =lid=                    |               | =/<lid>/=                |
+| retrieve list of all lessons                                      | GET    | N/A                              |               | =/=                      |
+| retrieve list of all lessons associated with a course             | GET    | lookup: =cid=                    |               | =/<cid>/=                |
+| retrieve a lesson associated with a course by its sequence number | GET    | lookup: =cid=, =lessonSeqNum=    |               | =/<cid>/<lessonSeqNum>/= |
+| update a lesson                                                   | PUT    | lookup: =lid=                    |               | =/<lid>/=                |
+| delete a lesson                                                   | DELETE | lookup: =lid=                    |               | =/<lid>/=                |
 
 *** LessonItem
-| description                                                                   | action | payload                                 | response, 200 | URI =/lessonsitems= +              |
-|-------------------------------------------------------------------------------+--------+-----------------------------------------+---------------+------------------------------------|
-| create a lesson item                                                          | POST   | all fields required except =lid=        | =llid=        | =/create/=                         |
-| retrieve a lesson item                                                        | GET    | lookup: =llid=                          |               | =/<llid>/=                         |
-| retrieve list of all lessons                                                  | GET    | N/A                                     |               | =/=                                |
-| retrieve list of all lesson items associated with a lesson                    | GET    | lookup: =lid=                           |               | =/<lid>/=                          |
-| retrieve lesson items associated with a lesson by lesson item sequence number | GET    | lookup: =my_lesson=, =lessonItemSeqNum= |               | =/<my_lesson>/<lessonItemSeqNum>/= |
-| update a lesson item                                                          | PUT    | lookup: =llid=                          |               | =/<llid>/=                         |
-| delete a lesson item                                                          | DELETE | lookup: =llid=                          |               | =/<llid>/=                         |
-|                                                                               |        |                                         |               |                                    |
+| description                                                                 | action | payload                                 | response, 200 | URI =/lessonsitems= +              |
+|-----------------------------------------------------------------------------+--------+-----------------------------------------+---------------+------------------------------------|
+| create a lesson item                                                        | POST   | all fields required except =lid=        | =llid=        | =/create/=                         |
+| retrieve a lesson item                                                      | GET    | lookup: =llid=                          |               | =/<llid>/=                         |
+| retrieve list of all lessons                                                | GET    | N/A                                     |               | =/=                                |
+| retrieve list of all lesson items associated with a lesson                  | GET    | lookup: =lid=                           |               | =/<lid>/=                          |
+| retrieve lesson item associated with a lesson by its sequence number        | GET    | lookup: =my_lesson=, =lessonItemSeqNum= |               | =/<my_lesson>/<lessonItemSeqNum>/= |
+| update a lesson item                                                        | PUT    | lookup: =llid=                          |               | =/<llid>/=                         |
+| delete a lesson item                                                        | DELETE | lookup: =llid=                          |               | =/<llid>/=                         |
+|                                                                             |        |                                         |               |                                    |
 
 * Notes
 1. API Endpoint(s) uri

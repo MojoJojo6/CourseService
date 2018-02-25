@@ -2,6 +2,9 @@ from django.db import models
 
 # Create your models here.
 class Course(models.Model):
+    """
+    Course table for course service
+    """
     cid = models.BigAutoField(primary_key=True)
     course_name = models.CharField(max_length=50)
     course_description = models.CharField(max_length=200)
@@ -16,6 +19,9 @@ class Course(models.Model):
         return self.course_name
 
 class Lesson(models.Model):
+    """
+     Lesson in Course model
+    """
     lid = models.BigAutoField(primary_key=True)
     my_course = models.ForeignKey(Course, on_delete=models.CASCADE)
     lesson_name = models.CharField(max_length=50)
@@ -32,6 +38,9 @@ class Lesson(models.Model):
 
 
 class Lessons_item(models.Model):
+    """
+    Lesson item model
+    """
     lid = models.BigAutoField(primary_key=True)
     my_course = models.ForeignKey(Course, on_delete=models.CASCADE)
     my_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)

@@ -2,11 +2,34 @@
 #+DATE: Feb 25, 2018
 #+TITLE: Documentation for Course Service
 
+* Models
+** Course
+#+BEGIN_SRC PYTHON :export no :eval no
+class Course(models.Model):
+    """
+    Course table for course service
+    """
+    cid = models.BigAutoField(primary_key=True)
+    course_name = models.CharField(max_length=50)
+    course_description = models.CharField(max_length=200)
+    faculty_id = models.BigIntegerField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.course_name
+
+    def __str__(self):
+        return "{} - {}".format(self.cid, self.course_name)
+#+END_SRC
 * API
 ** Resources
 *** =Course=
 *** =Lesson=
+- =my_course= changed to =courseId=
 *** =LessonItem=
+- =my_lesson= changed to =lessonId=
+- =my_course= attribute removed
 ** API endpoint description tables
 *** Course
 | description              | action | payload                                | response, 200 | URI =/courses= + |
@@ -17,7 +40,7 @@
 | update a course          | PUT    | lookup: =cid=                          |               | =/<cid>/=        |
 | delete a course          | DELETE | lookup: =cid=                          |               | =/<cid>/=        |
 
-*** Lesson[fn:3]
+*** Lesson
 | description                                                       | action | payload                            | response, 200 | URI =/lessons= +              |
 |-------------------------------------------------------------------+--------+------------------------------------+---------------+-------------------------------|
 | create a lesson                                                   | POST   | all fields required except =cid=   | =lid=         | =/create/=                    |
@@ -28,7 +51,7 @@
 | update a lesson                                                   | PUT    | lookup: =lid=                      |               | =/<lid>/=                     |
 | delete a lesson                                                   | DELETE | lookup: =lid=                      |               | =/<lid>/=                     |
 
-*** LessonItem[fn:1][fn:2]
+*** LessonItem
 | description                                                          | action | payload                                | response, 200 | URI =/lessonsitems= +             |
 |----------------------------------------------------------------------+--------+----------------------------------------+---------------+-----------------------------------|
 | create a lesson item                                                 | POST   | all fields required except =lid=       | =llid=        | =/create/=                        |
@@ -41,11 +64,5 @@
 |                                                                      |        |                                        |               |                                   |
 
 
-
-* Footnotes
-
-[fn:1] =my_lesson= changed to =lessonId=
-[fn:2] =my_course= attribute removed
-[fn:3] =my_course= changed to =courseId=
 
   

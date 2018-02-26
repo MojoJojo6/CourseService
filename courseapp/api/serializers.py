@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from courseapp.models import Course
 
-class CourseSerializers(serializers.ModelSerializer):
+class CourseSerializer(serializers.ModelSerializer):
     """
     TODO make faculty_id optional
     """
@@ -21,4 +21,26 @@ class CourseSerializers(serializers.ModelSerializer):
             'faculty_id',
             'date_created',
             'date_modified',
+        ]
+
+class LessonSerializer(serializers.ModelSerializer):
+    """
+    Serializer for Lesson Model
+    """
+    lid = serializers.IntegerField(required=False,read_only=True)
+    course_id = CourseSerializer(many=True)
+    lesson_name = serializers.CharField(max_length=20)
+    lesson_seqnum = serializers.IntegerField()
+    lesson_desc = serializers.CharField(max_length=200)
+    date_created = serializers.DateTimeField(read_only=True)
+    date_modified = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Course
+        fields = [
+            'lid',
+            'course_id',
+            'lesson_name',
+            'lesson_seqnum',
+            'lesson_desc',
         ]

@@ -16,3 +16,22 @@ class Course(models.Model):
 
     def __str__(self):
         return "{} - {}".format(self.cid, self.course_name)
+
+
+class Lesson(models.Model):
+    """
+     Lesson in Course model
+    """
+    lid = models.BigAutoField(primary_key=True)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    lesson_name = models.CharField(max_length=50)
+    lesson_seqnum = models.IntegerField()
+    lesson_desc = models.CharField(max_length=200)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.lesson_name
+
+    def __str__(self):
+        return "{} - {}".format(self.lid, self.lesson_name)

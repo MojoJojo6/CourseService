@@ -18,7 +18,7 @@ Lesson:
 
 from rest_framework import generics, mixins
 from courseapp.models import Course
-from .serializers import CourseSerializers
+from .serializers import CourseSerializer
 
 class CourseRUDView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -26,7 +26,7 @@ class CourseRUDView(generics.RetrieveUpdateDestroyAPIView):
 
     LOOKUP BY `cid`
     """
-    serializer_class = CourseSerializers
+    serializer_class = CourseSerializer
     queryset = Course.objects.all()
 
 
@@ -37,12 +37,12 @@ class CourseCreate(generics.CreateAPIView):
     All fields required except `faculty_id`,
     so the instructor of the course could be decided later.
     """
-    serializer_class = CourseSerializers
+    serializer_class = CourseSerializer
     queryset = Course.objects.all()
 
 class CourseList(generics.ListAPIView):
     """
     Get a list of all the courses
     """
-    serializer_class = CourseSerializers
+    serializer_class = CourseSerializer
     queryset = Course.objects.all()

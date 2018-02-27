@@ -33,32 +33,32 @@ class Course(models.Model):
 - =my_course= attribute removed
 ** API endpoint description tables
 *** Course
-| description              | action | payload                                | response JSON object type, 200 | response payload | URI =/courses= + |
+| description              | action | request payload                        | response JSON object type, 200 | response payload | URI =/courses= + |
 |--------------------------+--------+----------------------------------------+--------------------------------+------------------+------------------|
 | create a course          | POST   | all fields required except =facultyId= |                                |                  | =/create/=       |
-| retrieve a course        | GET    | parameter: =cid=                       |                                |                  | =/<cid>/=        |
-| retreive list of courses | GET    | N/A                                    | list                           |                  | =/=              |
+| retrieve a course        | GET    |                                        |                                |                  | =/<cid>/=        |
+| retreive list of courses | GET    |                                        | list                           |                  | =/=              |
 | update a course          | PUT    | parameter: =cid=                       |                                |                  | =/<cid>/=        |
 | delete a course          | DELETE | parameter: =cid=                       |                                |                  | =/<cid>/=        |
 
 *** Lesson
-| description                                                       | action | payload                                | reponse JSON object type, 200 | response payload | URI =/lessons= +                            |
-|-------------------------------------------------------------------+--------+----------------------------------------+-------------------------------+------------------+---------------------------------------------|
-| create a lesson                                                   | POST   | all fields required except =course_id= |                               |                  | =/create/=                                  |
-| retrieve a lesson                                                 | GET    | lookup: =lid=                          |                               |                  | =/<lid>/=                                   |
-| retrieve list of all lessons                                      | GET    | N/A                                    | list                          |                  | =/=                                         |
-| retrieve list of all lessons associated with a course             | GET    | lookup: =course_id=                    | list                          |                  | =/?cid=<course_id>/=                        |
-| retrieve a lesson associated with a course by its sequence number | GET    | lookup: =course_id=, =lesson_seqnum=   | list                          |                  | ~/?cid=<course_id>&seqnum=<lesson_seqnum>/~ |
-| update a lesson                                                   | PUT    | lookup: =lid=                          |                               |                  | =/<lid>/=                                   |
-| delete a lesson                                                   | DELETE | lookup: =lid=                          |                               |                  | =/<lid>/=                                   |
-                                                                    |        |                                        |                               |                  |                                             |
+| description                                                       | action | request payload                                               | reponse JSON object type, 200 | response payload | URI =/lessons= +                            |
+|-------------------------------------------------------------------+--------+---------------------------------------------------------------+-------------------------------+------------------+---------------------------------------------|
+| create a lesson                                                   | POST   | all fields required except =course_id=                        |                               |                  | =/create/=                                  |
+| retrieve a lesson                                                 | GET    |                                                               |                               |                  | =/<lid>/=                                   |
+| retrieve list of all lessons                                      | GET    |                                                               | list                          |                  | =/=                                         |
+| retrieve list of all lessons associated with a course             | GET    | parameter: =course_id= as =cid=                               | list                          |                  | =/?cid=<course_id>/=                        |
+| retrieve a lesson associated with a course by its sequence number | GET    | parameters: =course_id= as =cid=, =lesson_seqnum= as =seqnum= | list                          |                  | ~/?cid=<course_id>&seqnum=<lesson_seqnum>/~ |
+| update a lesson                                                   | PUT    |                                                               |                               |                  | =/<lid>/=                                   |
+| delete a lesson                                                   | DELETE |                                                               |                               |                  | =/<lid>/=                                   |
+|                                                                   |        |                                                               |                               |                  |                                             |
 *** LessonItem
-| description                                                          | action | payload                                | response, 200 | URI =/lessonsitems= +             |
-|----------------------------------------------------------------------+--------+----------------------------------------+---------------+-----------------------------------|
-| create a lesson item                                                 | POST   | all fields required except =lid=       | =llid=        | =/create/=                        |
-| retrieve a lesson item                                               | GET    | lookup: =llid=                         |               | =/<llid>/=                        |
-| retrieve list of all lessons                                         | GET    | N/A                                    |               | =/=                               |
-| retrieve list of all lesson items associated with a lesson           | GET    | lookup: =lid=                          |               | =/<lid>/=                         |
-| retrieve lesson item associated with a lesson by its sequence number | GET    | lookup: =lessonId=, =lessonItemSeqNum= |               | =/<lessonId>/<lessonItemSeqNum>/= |
-| update a lesson item                                                 | PUT    | lookup: =llid=                         |               | =/<llid>/=                        |
-| delete a lesson item                                                 | DELETE | lookup: =llid=                         |               | =/<llid>/=                        |
+| description                                                          | action | request payload                                              | response JSON object type, 200 | response payload | URI =/litems= +                              |
+|----------------------------------------------------------------------+--------+--------------------------------------------------------------+--------------------------------+------------------+----------------------------------------------|
+| create a lesson item                                                 | POST   | all fields required except =lesson_id=                       |                                |                  | =/create/=                                   |
+| retrieve a lesson item                                               | GET    |                                                              |                                |                  | =/<llid>/=                                   |
+| retrieve list of all lessons                                         | GET    |                                                              | list                           |                  | =/=                                          |
+| retrieve list of all lesson items associated with a lesson           | GET    | parameter: =lesson_id= as =lid=                              | list                           |                  | ~/?lid=<lesson_id>/~                         |
+| retrieve lesson item associated with a lesson by its sequence number | GET    | parameter: =lesson_id= as =lid=, =litem_seqnum= as =lseqnum= | list                           |                  | ~/?lid=<lesson_id>&lseqnum=<lesson_seqnum>/~ |
+| update a lesson item                                                 | PUT    |                                                              |                                |                  | =/<llid>/=                                   |
+| delete a lesson item                                                 | DELETE |                                                              |                                |                  | =/<llid>/=                                   |

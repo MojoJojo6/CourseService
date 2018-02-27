@@ -7,7 +7,7 @@ class Course(models.Model):
     cid = models.BigAutoField(primary_key=True)
     course_name = models.CharField(max_length=50)
     course_description = models.CharField(max_length=200)
-    faculty_id = models.BigIntegerField()
+    faculty_id = models.BigIntegerField(null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -23,9 +23,9 @@ class Lesson(models.Model):
      Lesson in Course model
     """
     lid = models.BigAutoField(primary_key=True)
-    course_id = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course_id = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
     lesson_name = models.CharField(max_length=50)
-    lesson_seqnum = models.IntegerField()
+    lesson_seqnum = models.IntegerField(null=True, blank=True)
     lesson_desc = models.CharField(max_length=200)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)

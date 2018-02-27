@@ -7,8 +7,6 @@ class LessonSerializer(serializers.ModelSerializer):
 
     Each lesson is related to only one course
     and has only one unique sequence number
-
-    TODO make course_id and lesson_seqnum optional
     """
     lid = serializers.IntegerField(required=False,read_only=True)
     course_id = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)

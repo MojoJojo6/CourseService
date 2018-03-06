@@ -17,7 +17,6 @@ class Course(models.Model):
     def __str__(self):
         return "{}_{}".format(self.cid, self.course_name)
 
-
 class Lesson(models.Model):
     """
      Lesson in Course model

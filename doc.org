@@ -2,26 +2,6 @@
 #+DATE: Feb 25, 2018
 #+TITLE: Documentation for Course Service
 
-* Models
-** Course
-#+BEGIN_SRC PYTHON :export no :eval no
-class Course(models.Model):
-    """
-    Course table for course service
-    """
-    cid = models.BigAutoField(primary_key=True)
-    course_name = models.CharField(max_length=50)
-    course_description = models.CharField(max_length=200)
-    faculty_id = models.BigIntegerField()
-    date_created = models.DateTimeField(auto_now_add=True)
-    date_modified = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        return self.course_name
-
-    def __str__(self):
-        return "{} - {}".format(self.cid, self.course_name)
-#+END_SRC
 * API
 ** Resources
 *** =Course=
@@ -57,7 +37,7 @@ class Course(models.Model):
 |----------------------------------------------------------------------+--------+--------------------------------------------------------------+--------------------------------+------------------+----------------------------------------------|
 | create a lesson item                                                 | POST   | all fields required except =lesson_id=                       |                                |                  | =/create/=                                   |
 | retrieve a lesson item                                               | GET    |                                                              |                                |                  | =/<llid>/=                                   |
-| retrieve list of all lessons                                         | GET    |                                                              | list                           |                  | =/=                                          |
+| retrieve list of all lessons items                                   | GET    |                                                              | list                           |                  | =/=                                          |
 | retrieve list of all lesson items associated with a lesson           | GET    | parameter: =lesson_id= as =lid=                              | list                           |                  | ~/?lid=<lesson_id>/~                         |
 | retrieve lesson item associated with a lesson by its sequence number | GET    | parameter: =lesson_id= as =lid=, =litem_seqnum= as =lseqnum= | list                           |                  | ~/?lid=<lesson_id>&lseqnum=<lesson_seqnum>/~ |
 | update a lesson item                                                 | PUT    |                                                              |                                |                  | =/<llid>/=                                   |

@@ -10,7 +10,8 @@ from .lessonViews import \
 
 from .litemViews import \
     LitemCreate, \
-    LitemList
+    LitemList, \
+    LitemRUDView
 
 # from django.urls import path
 
@@ -29,5 +30,6 @@ urlpatterns = [
     url(r'{0}/$'.format(uri_types[1]), LessonList.as_view(), name='lesson-list'),
 
     url(r'{0}/create/$'.format(uri_types[2]), LitemCreate.as_view(), name='litem-create'),
+    url(r'{0}/(?P<pk>\d+)/$'.format(uri_types[2]), LitemRUDView.as_view(), name='litem-rud'),
     url(r'{0}/$'.format(uri_types[2]), LitemList.as_view(), name='litem-list'),
 ]

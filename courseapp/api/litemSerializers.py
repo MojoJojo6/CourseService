@@ -1,6 +1,7 @@
 """
 Refer to doc.org file for documentation of this code.
 """
+
 from rest_framework import serializers
 from courseapp.models import Lesson, Litem
 

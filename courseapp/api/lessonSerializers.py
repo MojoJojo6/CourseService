@@ -9,7 +9,7 @@ class LessonSerializer(serializers.ModelSerializer):
     and has only one unique sequence number
     """
     lid = serializers.IntegerField(required=False,read_only=True)
-    course_id = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)
@@ -20,7 +20,7 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = [
             'lid',
-            'course_id',
+            'course',
             'lesson_name',
             'lesson_seqnum',
             'lesson_desc',

@@ -10,9 +10,9 @@ class LitemSerializer(serializers.ModelSerializer):
     Serializer for Lesson Item Model
     """
     liid = serializers.IntegerField(required=False, read_only=True)
-    lesson_id = serializers.PrimaryKeyRelatedField(queryset=Lesson.objects.all(), allow_null=True, required=False)
+    lesson = serializers.PrimaryKeyRelatedField(queryset=Lesson.objects.all(), allow_null=True, required=False)
     litem_name = serializers.CharField(max_length=20)
-    litem_seqname = serializers.IntegerField()
+    litem_seqnum = serializers.IntegerField()
     litem_desc = serializers.CharField(max_length=200)
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
@@ -21,9 +21,9 @@ class LitemSerializer(serializers.ModelSerializer):
         model = Litem
         fields = [
             'liid',
-            'lesson_id',
+            'lesson',
             'litem_name',
-            'litem_seqname',
+            'litem_seqnum',
             'litem_desc',
             'date_created',
             'date_modified'

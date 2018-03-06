@@ -26,7 +26,7 @@ class LitemList(generics.ListAPIView):
             To get the litem with given sequence number under a lesson.
             It is useful when user wants to load a specific lesson item by its sequence number.
             """
-            return Litem.objects.filter(lesson_id=lesson_id, litem_seqname=litem_seqnum)
+            return Litem.objects.filter(lesson=lesson_id, litem_seqnum=litem_seqnum)
         elif lesson_id != None:
             """
             Retrieve list of lesson items by `lesson_id`
@@ -34,7 +34,7 @@ class LitemList(generics.ListAPIView):
             To get the list of all the lesson items associated with same lesson.
             It is useful when user wants to load a lesson item playlist.
             """
-            return Litem.objects.filter(lesson_id=lesson_id)
+            return Litem.objects.filter(lesson=lesson_id)
         else:
             """
             Get list of all the lessons (irrespective of course)

@@ -10,7 +10,7 @@ class CourseSerializer(serializers.ModelSerializer):
     cid = serializers.IntegerField(required=False, read_only=True)
     course_name = serializers.CharField(required=True, max_length=50)
     course_description = serializers.CharField(max_length=200)
-    faculty_id = serializers.IntegerField(required=False, allow_null=True)
+    faculty = serializers.IntegerField(required=False, allow_null=True)
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
 
@@ -20,7 +20,7 @@ class CourseSerializer(serializers.ModelSerializer):
             'cid',
             'course_name',
             'course_description',
-            'faculty_id',
+            'faculty',
             'date_created',
             'date_modified',
         ]

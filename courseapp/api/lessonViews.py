@@ -34,7 +34,7 @@ class LessonList(generics.ListAPIView):
 
             It is useful when the user wants to jump to a particular lesson in the course playlist.
             """
-            return Lesson.objects.filter(course_id=course_id, lesson_seqnum = lesson_seqnum)
+            return Lesson.objects.filter(course=course_id, lesson_seqnum = lesson_seqnum)
         elif (course_id != None):
             """
             Retrieve list of lessons by `course_id`
@@ -42,7 +42,7 @@ class LessonList(generics.ListAPIView):
             To get the list of all the lessons associated with same course.
             It is useful when user wants to load a course playlist.
             """
-            return Lesson.objects.filter(course_id=course_id)
+            return Lesson.objects.filter(course=course_id)
         else:
             """
             Get list of all the lessons (irrespective of course)

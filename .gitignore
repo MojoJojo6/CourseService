@@ -82,6 +82,9 @@ celerybeat-schedule
 # dotenv
 .env
 
+# pycharm settings
+.idea
+
 # virtualenv
 .venv
 venv/
@@ -102,3 +105,4 @@ ENV/
 
 # org-cache
 *.org~
+

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from courseapp.models import Course, Lesson
-from .courseSerializers import CourseSerializer
+from .litemSerializers import LitemSerializer
 
 class LessonSerializer(serializers.ModelSerializer):
     """
@@ -12,7 +12,7 @@ class LessonSerializer(serializers.ModelSerializer):
     lid = serializers.IntegerField(required=False,read_only=True)
     # course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)
 
-    courses = CourseSerializer(many=True)
+    litems = LitemSerializer(many=True)
 
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
@@ -24,7 +24,7 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = [
             'lid',
-            'course',
+            'litems',
             'lesson_name',
             'lesson_seqnum',
             'lesson_desc',

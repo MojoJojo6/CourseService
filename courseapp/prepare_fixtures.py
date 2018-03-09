@@ -34,11 +34,9 @@ lesson_fixtures2 = {
 
 lesson1 = Lesson(**lesson_fixtures1)
 lesson1.save()
-lesson1.courses.add(Course.objects.first())
 
 lesson2 = Lesson(**lesson_fixtures2)
 lesson2.save()
-lesson2.courses.add(Course.objects.create())
 
 
 litem_fixtures1 = {
@@ -53,8 +51,6 @@ litem_fixtures2 = {
 
 litem1 = Litem(**litem_fixtures1)
 litem1.save()
-litem1.lessons.add(Lesson.objects.first())
 
 litem2 = Litem(**litem_fixtures2)
 litem2.save()
-litem2.lessons.add(Lesson.objects.last())

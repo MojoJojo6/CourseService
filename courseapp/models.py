@@ -1,21 +1,23 @@
 from django.db import models
 
-class Course(models.Model):
+
+class Litem(models.Model):
     """
-    Course table for course service
+    Lesson item model
     """
-    cid = models.BigAutoField(primary_key=True)
-    course_name = models.CharField(max_length=50)
-    course_description = models.CharField(max_length=200)
-    faculty = models.BigIntegerField(null=True, blank=True)
+    liid = models.BigAutoField(primary_key=True)
+    # lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
+    litem_name = models.CharField(max_length=50)
+    litem_seqnum = models.IntegerField(null=True)
+    litem_desc = models.CharField(max_length=200)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.course_name
+        return self.litem_name
 
     def __str__(self):
-        return "{}_{}".format(self.cid, self.course_name)
+        return "{} / ({}) {}_{}".format(self.litem_seqnum, self.liid, self.litem_name)
 
 
 class Lesson(models.Model):
@@ -28,7 +30,7 @@ class Lesson(models.Model):
     lesson_seqnum = models.IntegerField(null=True)
     lesson_desc = models.CharField(max_length=200)
 
-    courses = models.ManyToManyField(Course)
+    litems = models.ManyToManyField(Litem)
 
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
@@ -37,18 +39,17 @@ class Lesson(models.Model):
         return self.lesson_name
 
     def __str__(self):
-        return "{} / ({}) {}_{}".format(self.courses, self.lesson_seqnum, self.lid, self.lesson_name)
+        return "{} / ({}) {}_{}".format(self.litems, self.lesson_seqnum, self.lid, self.lesson_name)
 
 
-class Litem(models.Model):
+class Course(models.Model):
     """
-    Lesson item model
+    Course table for course service
     """
-    liid = models.BigAutoField(primary_key=True)
-    # lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
-    litem_name = models.CharField(max_length=50)
-    litem_seqnum = models.IntegerField(null=True)
-    litem_desc = models.CharField(max_length=200)
+    cid = models.BigAutoField(primary_key=True)
+    course_name = models.CharField(max_length=50)
+    course_description = models.CharField(max_length=200)
+    faculty = models.BigIntegerField(null=True, blank=True)
 
     lessons = models.ManyToManyField(Lesson)
 
@@ -56,13 +57,9 @@ class Litem(models.Model):
     date_modified = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return self.litem_name
+        return self.course_name
 
     def __str__(self):
-        return "{} / ({}) {}_{}".format(self.lessons, self.litem_seqnum, self.liid, self.litem_name)
-
-
-
-
+        return "{}_{}".format(self.cid, self.course_name)
 
 

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from courseapp.models import Course, Lesson
+from .courseSerializers import CourseSerializer
 
 class LessonSerializer(serializers.ModelSerializer):
     """
@@ -9,7 +10,10 @@ class LessonSerializer(serializers.ModelSerializer):
     and has only one unique sequence number
     """
     lid = serializers.IntegerField(required=False,read_only=True)
-    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)
+    # course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)
+
+    courses = CourseSerializer(many=True)
+
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)

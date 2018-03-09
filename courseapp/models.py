@@ -17,15 +17,19 @@ class Course(models.Model):
     def __str__(self):
         return "{}_{}".format(self.cid, self.course_name)
 
+
 class Lesson(models.Model):
     """
      Lesson in Course model
     """
     lid = models.BigAutoField(primary_key=True)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    # course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
     lesson_name = models.CharField(max_length=50)
-    lesson_seqnum = models.IntegerField(null=True, blank=True)
+    lesson_seqnum = models.IntegerField(null=True)
     lesson_desc = models.CharField(max_length=200)
+
+    courses = models.ManyToManyField(Course)
+
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -33,17 +37,21 @@ class Lesson(models.Model):
         return self.lesson_name
 
     def __str__(self):
-        return "{} / ({}) {}_{}".format(self.course, self.lesson_seqnum, self.lid, self.lesson_name)
+        return "{} / ({}) {}_{}".format(self.courses, self.lesson_seqnum, self.lid, self.lesson_name)
+
 
 class Litem(models.Model):
     """
     Lesson item model
     """
     liid = models.BigAutoField(primary_key=True)
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
+    # lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, null=True, blank=True)
     litem_name = models.CharField(max_length=50)
-    litem_seqnum = models.IntegerField()
+    litem_seqnum = models.IntegerField(null=True)
     litem_desc = models.CharField(max_length=200)
+
+    lessons = models.ManyToManyField(Lesson)
+
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
 
@@ -51,4 +59,10 @@ class Litem(models.Model):
         return self.litem_name
 
     def __str__(self):
-        return "{} / ({}) {}_{}".format(self.lesson, self.litem_seqnum, self.liid, self.litem_name)
+        return "{} / ({}) {}_{}".format(self.lessons, self.litem_seqnum, self.liid, self.litem_name)
+
+
+
+
+
+

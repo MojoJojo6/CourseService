@@ -5,6 +5,46 @@
 * API
 ** Resources
 *** =Course=
+- we want to ensure that only admin can create/delete/update the course/lesson/lessonItem
+- when whole course is fetch it should come with all the lessons and lessonitems embedded
+- while a person can also see just the list of courses
+- when whole lesson is fetched it should come with all the lessonitems while the person shuld be able to see only list of same
+- there should be only one lesson at given seqnum and one lessonitem at seqnum under a lesson
+- admin should be able to delete multiple courses, multipel lessons and multiple lessonitems
+
+faculty should be able to update/view course, lesson, lessonItem.
+faculty should be able to create/delete lesson, lessonitem.
+admin should be able to create/update/view/delete course,lesson,lessonitem
+
+delete:
+ multiple courses/lessons/lessonitems
+ single course/lesson/lessonitem
+
+create/update
+ create course/lesson/lessonitem
+
+view
+ list of course details or lesson details or lessonitem details
+ list of lesson details under a course
+ list of lessonitem details under a lesson
+ 
+ list of courses embedded with lesson and lessonitems
+ list of lessons embedded with lessonitems
+ list of lessons embedded with lessonitems under a course
+
+
+I don't think that there is any thing which we need to hide from the users in case of courses.
+
+
+Just a thought... while I was creating lessons and lesson items, I saw that it became difficult to predict
+the seqnum of the lesson for that course, I found that it must have a sequence number which should be unique
+respective to course.
+
+same goes with lessonItem, it should have a seqnum unique in respect to lesson.
+
+Now another thought, what if user needs to first create the lesson items then lessons and then course.
+So in that sense it would be able to pick lessons to create a course from a list of lessons and assign them seqnums.
+
 *** =Lesson=
 - =my_course= changed to =course_id=
 - =myseqnum= changed to =lesson_seqnum=
@@ -13,13 +53,16 @@
 - =my_course= attribute removed
 ** API endpoint description tables
 *** Course
-| description              | action | request payload                        | response JSON object type, 200 | response payload | URI =/courses= + |
-|--------------------------+--------+----------------------------------------+--------------------------------+------------------+------------------|
-| create a course          | POST   | all fields required except =facultyId= |                                |                  | =/create/=       |
-| retrieve a course        | GET    |                                        |                                |                  | =/<cid>/=        |
-| retreive list of courses | GET    |                                        | list                           |                  | =/=              |
-| update a course          | PUT    | parameter: =cid=                       |                                |                  | =/<cid>/=        |
-| delete a course          | DELETE | parameter: =cid=                       |                                |                  | =/<cid>/=        |
+| description                                                      | scope   | serializer          | action                                 | request payload                        | response JSON object type, 200 | response payload                       | URI =/courses= + |
+|------------------------------------------------------------------+---------+---------------------+----------------------------------------+----------------------------------------+--------------------------------+----------------------------------------+------------------|
+| create a course                                                  | admin   | courseCUDSerializer | POST                                   | all fields required except =facultyId= |                                |                                        | =/create/=       |
+| retrieve a course                                                |         | GET                 |                                        |                                        |                                | =/<cid>/=                              |                  |
+| retreive list of courses                                         |         | GET                 |                                        | list                                   |                                | =/=                                    |                  |
+| update a course                                                  | faculty | courseCUDSerializer | PUT                                    | parameter: =cid=                       |                                |                                        | =/<cid>/=        |
+| delete a course                                                  | admin   | courseCUDSerializer | DELETE                                 | parameter: =cid=                       |                                |                                        | =/<cid>/=        |
+| * retrieve a course details with embedding                       | all     | courseRSerializer   | GET                                    |                                        |                                |                                        | ~/<cid>/~        |
+| * retreive list of courses with lessons and lessonItems embedded | all     | courseRSerializer   | GET                                    |                                        | list                           |                                        | ~/~              |
+| * delete multiple courses                                        | admin   | courseCUDSerializer | DELETE                                 | parameter: list of =cid=               | list                           | list of confirmation for each deletion | ~/?multi=yes~    |
 
 *** Lesson
 | description                                                       | action | request payload                                               | reponse JSON object type, 200 | response payload | URI =/lessons= +                            |
@@ -42,3 +85,14 @@
 | retrieve lesson item associated with a lesson by its sequence number | GET    | parameter: =lesson_id= as =lid=, =litem_seqnum= as =lseqnum= | list                           |                  | ~/?lid=<lesson_id>&lseqnum=<lesson_seqnum>/~ |
 | update a lesson item                                                 | PUT    |                                                              |                                |                  | =/<llid>/=                                   |
 | delete a lesson item                                                 | DELETE |                                                              |                                |                  | =/<llid>/=                                   |
+*** Lesson
+| description                                                       | action | request payload                                               | reponse JSON object type, 200 | response payload | URI =/lessons= +                            |
+|-------------------------------------------------------------------+--------+---------------------------------------------------------------+-------------------------------+------------------+---------------------------------------------|
+| create a lesson                                                   | POST   | all fields required except =course_id=                        |                               |                  | =/create/=                                  |
+| retrieve a lesson                                                 | GET    |                                                               |                               |                  | =/<lid>/=                                   |
+| retrieve list of all lessons                                      | GET    |                                                               | list                          |                  | =/=                                         |
+| retrieve list of all lessons associated with a course             | GET    | parameter: =course_id= as =cid=                               | list                          |                  | =/?cid=<course_id>/=                        |
+| retrieve a lesson associated with a course by its sequence number | GET    | parameters: =course_id= as =cid=, =lesson_seqnum= as =seqnum= | list                          |                  | ~/?cid=<course_id>&seqnum=<lesson_seqnum>/~ |
+| update a lesson                                                   | PUT    |                                                               |                               |                  | =/<lid>/=                                   |
+| delete a lesson                                                   | DELETE |                                                               |                               |                  | =/<lid>/=                                   |
+|                                                                   |        |                                                               |                               |                  |                                             |

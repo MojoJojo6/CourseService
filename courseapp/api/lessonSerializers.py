@@ -72,7 +72,7 @@ class LessonSerializerCreate(serializers.ModelSerializer):
     """
     lid = serializers.IntegerField(required=False,read_only=True)
 
-    course = serializers.ChoiceField(choices=Course.objects.all(), required=True)
+    course = serializers.ChoiceField(choices=Course.objects.all(), required=True, write_only=True)
 
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
@@ -105,4 +105,3 @@ class LessonSerializerCreate(serializers.ModelSerializer):
         course.lessons.add(lesson)
         return lesson
 
-    

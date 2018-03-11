@@ -10,6 +10,8 @@ Refer to doc.org file for documentation of this code.
 from rest_framework import generics
 from courseapp.models import Lesson
 from .lessonSerializers import LessonSerializer
+from .lessonSerializers import LessonSerializerCreate
+
 
 class LessonRUDView(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -19,6 +21,7 @@ class LessonRUDView(generics.RetrieveUpdateDestroyAPIView):
     """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
+
 
 class LessonList(generics.ListAPIView):
     serializer_class = LessonSerializer
@@ -49,11 +52,12 @@ class LessonList(generics.ListAPIView):
             """
             return Lesson.objects.all()
 
+
 class LessonCreate(generics.CreateAPIView):
     """
     Create a new Lesson
 
     All fields required except the `course_id` and `lesson_seqnum`
     """
-    serializer_class = LessonSerializer
+    serializer_class = LessonSerializerCreate
     queryset = Lesson.objects.all()

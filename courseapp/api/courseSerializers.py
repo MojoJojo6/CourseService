@@ -1,20 +1,16 @@
 from rest_framework import serializers
-from courseapp.models import Course, Lesson
+from courseapp.models import Course
 from .lessonSerializers import LessonSerializer
 
-class CourseSerializer(serializers.ModelSerializer):
+class CourseSerializerRD(serializers.ModelSerializer):
     """
-    Serializer for `Course` model
-
-    Each course has only one faculty associated with it.
+    Serializer for `Course` model retrieval and deletion.
     """
     cid = serializers.IntegerField(required=False, read_only=True)
     course_name = serializers.CharField(required=True, max_length=50)
     course_description = serializers.CharField(max_length=200)
     faculty = serializers.IntegerField(required=False, allow_null=True)
-
     lessons = LessonSerializer(many=True)
-
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
 
@@ -31,17 +27,14 @@ class CourseSerializer(serializers.ModelSerializer):
         ]
 
 
-class CourseSerializerCreate(serializers.ModelSerializer):
+class CourseSerializerCU(serializers.ModelSerializer):
     """
-    Serializer for `Course` model
-
-    Each course has only one faculty associated with it.
+    Serializer for `Course` model creation and updation.
     """
     cid = serializers.IntegerField(required=False, read_only=True)
     course_name = serializers.CharField(required=True, max_length=50)
     course_description = serializers.CharField(max_length=200)
     faculty = serializers.IntegerField(required=False, allow_null=True)
-
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
 

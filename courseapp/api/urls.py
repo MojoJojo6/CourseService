@@ -1,8 +1,8 @@
 from django.conf.urls import url
 from .courseViews import \
+    CourseCView, \
     CourseRUDView, \
-    CourseCreate, \
-    CourseList
+    CourseListView
 from .lessonViews import \
     LessonCreate, \
     LessonRUDView, \
@@ -21,9 +21,9 @@ app_name = 'courseapp'
 uri_types = ['courses', 'lessons', 'litems']
 
 urlpatterns = [
-    url(r'^{0}/create/$'.format(uri_types[0]), CourseCreate.as_view(), name='course-create'),
+    url(r'^{0}/create/$'.format(uri_types[0]), CourseCView.as_view(), name='course-create'),
     url(r'{0}/(?P<pk>\d+)/$'.format(uri_types[0]), CourseRUDView.as_view(), name='course-rud'),
-    url(r'^{0}/$'.format(uri_types[0]), CourseList.as_view(), name='course-list'),
+    url(r'^{0}/$'.format(uri_types[0]), CourseListView.as_view(), name='course-list'),
 
     url(r'{0}/create/$'.format(uri_types[1]), LessonCreate.as_view(), name='lesson-create'),
     url(r'{0}/(?P<pk>\d+)/$'.format(uri_types[1]), LessonRUDView.as_view(), name='lesson-rud'),

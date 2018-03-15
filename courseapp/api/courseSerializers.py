@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from courseapp.models import Course
-from .lessonSerializers import LessonSerializer
+from .lessonSerializers import LessonSerializerCUD, LessonSerializerR
 
 class CourseSerializerRD(serializers.ModelSerializer):
     """
@@ -10,7 +10,7 @@ class CourseSerializerRD(serializers.ModelSerializer):
     course_name = serializers.CharField(required=True, max_length=50)
     course_description = serializers.CharField(max_length=200)
     faculty = serializers.IntegerField(required=False, allow_null=True)
-    lessons = LessonSerializer(many=True)
+    lessons = LessonSerializerR(many=True)
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
 

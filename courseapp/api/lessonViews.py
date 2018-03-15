@@ -9,8 +9,8 @@ Refer to doc.org file for documentation of this code.
 
 from rest_framework import generics
 from courseapp.models import Lesson
-from .lessonSerializers import LessonSerializer
-from .lessonSerializers import LessonSerializerCreate
+from .lessonSerializers import LessonSerializerCUD
+from .lessonSerializers import LessonSerializerR
 
 
 class LessonRUDView(generics.RetrieveUpdateDestroyAPIView):
@@ -19,38 +19,48 @@ class LessonRUDView(generics.RetrieveUpdateDestroyAPIView):
 
     LOOKUP BY `lid` (by default)
     """
-    serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
 
+    def get_serializer_class(self):
+        if self.request.method == "GET":
+            return LessonSerializerR
+        elif self.request.method == "PUT" or "PATCH" or "DELETE":
+            return LessonSerializerCUD
 
 class LessonList(generics.ListAPIView):
-    serializer_class = LessonSerializer
+    serializer_class = LessonSerializerR
     def get_queryset(self):
         queryset = Lesson.objects.all()
-        query_params = self.request.query_params
-        course_id = query_params.get('cid', None)
-        lesson_seqnum = query_params.get('seqnum', None)
 
-        if (course_id != None and lesson_seqnum != None):
-            """
-            Retrieve details of lesson selected by `course_id` and `lesson_seqnum`.
+        # query_params = self.request.query_params
+        # course_id = query_params.get('cid', None)
+        # lesson_seqnum = query_params.get('seqnum', None)
 
-            It is useful when the user wants to jump to a particular lesson in the course playlist.
-            """
-            return Lesson.objects.filter(course=course_id, lesson_seqnum = lesson_seqnum)
-        elif (course_id != None):
-            """
-            Retrieve list of lessons by `course_id`
+        # if (course_id != None and lesson_seqnum != None):
+        #     """
+        #     Retrieve details of lesson selected by `course_id` and `lesson_seqnum`.
+        #
+        #     It is useful when the user wants to jump to a particular lesson in the course playlist.
+        #     """
+        #     return Lesson.objects.filter(course=course_id, lesson_seqnum = lesson_seqnum)
+        # elif (course_id != None):
+        #     """
+        #     Retrieve list of lessons by `course_id`
+        #
+        #     To get the list of all the lessons associated with same course.
+        #     It is useful when user wants to load a course playlist.
+        #     """
+        #     return Lesson.objects.filter(course=course_id)
+        # else:
+        #     """
+        #     Get list of all the lessons (irrespective of course)
+        #     """
+        #     return Lesson.objects.all()
 
-            To get the list of all the lessons associated with same course.
-            It is useful when user wants to load a course playlist.
-            """
-            return Lesson.objects.filter(course=course_id)
-        else:
-            """
-            Get list of all the lessons (irrespective of course)
-            """
-            return Lesson.objects.all()
+        """
+        Get list of all the lessons (irrespective of course)
+        """
+        return Lesson.objects.all()
 
 
 class LessonCreate(generics.CreateAPIView):
@@ -59,5 +69,5 @@ class LessonCreate(generics.CreateAPIView):
 
     All fields required except the `course_id` and `lesson_seqnum`
     """
-    serializer_class = LessonSerializerCreate
+    serializer_class = LessonSerializerCUD
     queryset = Lesson.objects.all()

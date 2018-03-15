@@ -1,9 +1,9 @@
 from rest_framework import serializers
 from courseapp.models import Course, Lesson
-from .litemSerializers import LitemSerializer
+from .litemSerializers import LitemSerializerR, LitemSerializerCUD
 
 
-class LessonSerializer(serializers.ModelSerializer):
+class LessonSerializerR(serializers.ModelSerializer):
     """
     Serializer for `Lesson` model
 
@@ -11,10 +11,7 @@ class LessonSerializer(serializers.ModelSerializer):
     and has only one unique sequence number
     """
     lid = serializers.IntegerField(required=False,read_only=True)
-    # course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), allow_null=True, required=False)
-
-    litems = LitemSerializer(many=True)
-
+    # litems = LitemSerializerR(many=True)
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)
@@ -33,6 +30,8 @@ class LessonSerializer(serializers.ModelSerializer):
             'date_modified',
         ]
 
+    # import pdb
+    # pdb.set_trace()
 
 class CourseField(serializers.Field):
     """
@@ -44,8 +43,8 @@ class CourseField(serializers.Field):
         :param value:
         :return:
         """
-        import ipdb
-        ipdb.set_trace()
+        # import ipdb
+        # ipdb.set_trace()
 
         return value
 
@@ -55,15 +54,15 @@ class CourseField(serializers.Field):
         :param data: data should be a list
         :return:
         """
-        import ipdb
-        ipdb.set_trace()
+        # import ipdb
+        # ipdb.set_trace()
 
         if len(data) > 1:
             raise serializers.ValidationError("The number of courses cannot be more than one")
         return Course.objects.get(cid=data[0][0])
 
 
-class LessonSerializerCreate(serializers.ModelSerializer):
+class LessonSerializerCUD(serializers.ModelSerializer):
     """
     Serializer for `Lesson` model
 
@@ -71,9 +70,7 @@ class LessonSerializerCreate(serializers.ModelSerializer):
     and has only one unique sequence number
     """
     lid = serializers.IntegerField(required=False,read_only=True)
-
     course = serializers.ChoiceField(choices=Course.objects.all(), required=True, write_only=True)
-
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)
@@ -94,10 +91,10 @@ class LessonSerializerCreate(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-                for data creation
-                :param validated_data:
-                :return:
-                """
+        for data creation
+        :param validated_data:
+        :return:
+        """
         # for creation
         course = validated_data.pop("course")
         lesson = Lesson(**validated_data)
@@ -105,3 +102,30 @@ class LessonSerializerCreate(serializers.ModelSerializer):
         course.lessons.add(lesson)
         return lesson
 
+    def update(self, instance, validated_data):
+        """
+        For `lesson` updation.
+
+        It will first check if the lesson exists in any present course,
+        if true then the lesson will be dissociated from that course.
+
+        It will add lesson to the defined course.
+        :return:
+        """
+        # update lesson
+        instance.lesson_name = validated_data.get('lesson_name', instance.lesson_name)
+        instance.lesson_seqnum = validated_data.get('lesson_seqnum', instance.lesson_seqnum)
+        instance.lesson_desc = validated_data.get('lesson_desc', instance.lesson_desc)
+        instance.save()
+
+        # check if associated with an old course
+        old_course = Course.objects.filter(lessons=instance)
+        if len(old_course) > 0:
+            # dissociate lesson from old course
+            old_course[0].lessons.remove(instance)
+
+        # associate lesson with new selected course
+        new_course = validated_data['course']
+        new_course.lessons.add(instance)
+
+        return instance

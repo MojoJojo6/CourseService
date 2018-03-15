@@ -11,7 +11,7 @@ class LessonSerializerR(serializers.ModelSerializer):
     and has only one unique sequence number
     """
     lid = serializers.IntegerField(required=False,read_only=True)
-    # litems = LitemSerializerR(many=True)
+    litems = LitemSerializerR(many=True)
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)
@@ -32,34 +32,6 @@ class LessonSerializerR(serializers.ModelSerializer):
 
     # import pdb
     # pdb.set_trace()
-
-class CourseField(serializers.Field):
-    """
-    course field
-    """
-    def to_representation(self, value):
-        """
-        to representation
-        :param value:
-        :return:
-        """
-        # import ipdb
-        # ipdb.set_trace()
-
-        return value
-
-    def to_internal_value(self, data):
-        """
-        convert to internal value
-        :param data: data should be a list
-        :return:
-        """
-        # import ipdb
-        # ipdb.set_trace()
-
-        if len(data) > 1:
-            raise serializers.ValidationError("The number of courses cannot be more than one")
-        return Course.objects.get(cid=data[0][0])
 
 
 class LessonSerializerCUD(serializers.ModelSerializer):
@@ -120,7 +92,7 @@ class LessonSerializerCUD(serializers.ModelSerializer):
 
         # check if associated with an old course
         old_course = Course.objects.filter(lessons=instance)
-        if len(old_course) > 0:
+        if len(old_course) == 1:
             # dissociate lesson from old course
             old_course[0].lessons.remove(instance)
 

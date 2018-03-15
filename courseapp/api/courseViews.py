@@ -16,7 +16,6 @@ class CourseCView(generics.CreateAPIView):
     so the instructor of the course could be decided later
     and lesson will be assigned to course while creation of lesson itself.
     """
-    # serializer_class = CourseSerializerCU
     queryset = Course.objects.all()
     serializer_class = CourseSerializerCU
 

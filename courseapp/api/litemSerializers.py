@@ -5,6 +5,7 @@ Refer to doc.org file for documentation of this code.
 from rest_framework import serializers
 from courseapp.models import Lesson, Litem
 
+
 class LitemSerializerCUD(serializers.ModelSerializer):
     """
     Serializer for creation and updation of `litem`
@@ -54,15 +55,14 @@ class LitemSerializerCUD(serializers.ModelSerializer):
         course.lessons.add(lesson)
         return lesson
 
-
     def update(self, instance, validated_data):
         """
-        For `lesson` updation.
+        For `litem` updation.
 
-        It will first check if the lesson exists in any present course,
-        if true then the lesson will be dissociated from that course.
+        It will first check if the litem exists in any present lesson,
+        if true then the litem will be dissociated from that lesson.
 
-        It will add lesson to the defined course.
+        It will add litem to the defined lesson.
         :return:
         """
         # update lesson
@@ -71,13 +71,13 @@ class LitemSerializerCUD(serializers.ModelSerializer):
         instance.litem_desc = validated_data.get('lesson_desc', instance.litem_desc)
         instance.save()
 
-        # check if associated with an old course
+        # check if associated with an old lesson
         old_lesson = Lesson.objects.filter(litems=instance)
         if len(old_lesson) == 1:
-            # dissociate lesson from old course
+            # dissociate litem from old lesson
             old_lesson[0].litems.remove(instance)
 
-        # associate lesson with new selected course
+        # associate litem with new selected lesson
         new_lesson = validated_data['lesson']
         new_lesson.litems.add(instance)
         return instance
@@ -104,15 +104,3 @@ class LitemSerializerR(serializers.ModelSerializer):
             'date_created',
             'date_modified'
         ]
-
-    # def __delete__(self, instance, validated_data):
-    #     """
-    #     Delete a `litem` and remove its entry from related row entry in `Lesson` table.
-    #     :param instance:
-    #     :return:
-    #     """
-    #     lesson = Lesson.objects.filter(course__lessons__litems__in=self.liid)
-    #     print(lesson)
-    #     litem = Litem.objects.get(instance)
-    #     litem.delete()
-    #     return litem

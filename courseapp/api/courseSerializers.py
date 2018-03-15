@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from courseapp.models import Course
-from .lessonSerializers import LessonSerializerCUD, LessonSerializerR
+from .lessonSerializers import LessonSerializerR
+
 
 class CourseSerializerRD(serializers.ModelSerializer):
     """

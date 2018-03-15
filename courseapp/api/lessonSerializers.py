@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from courseapp.models import Course, Lesson
-from .litemSerializers import LitemSerializerR, LitemSerializerCUD
+from .litemSerializers import LitemSerializerR
 
 
 class LessonSerializerR(serializers.ModelSerializer):
@@ -29,9 +29,6 @@ class LessonSerializerR(serializers.ModelSerializer):
             'date_created',
             'date_modified',
         ]
-
-    # import pdb
-    # pdb.set_trace()
 
 
 class LessonSerializerCUD(serializers.ModelSerializer):
@@ -101,3 +98,4 @@ class LessonSerializerCUD(serializers.ModelSerializer):
         new_course.lessons.add(instance)
 
         return instance
+

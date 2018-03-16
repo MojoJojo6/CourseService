@@ -5,10 +5,12 @@ from .litemSerializers import LitemSerializerR
 
 class LessonSerializerR(serializers.ModelSerializer):
     """
-    Serializer for `Lesson` model
+    Serializer for `Lesson` retrieval.
 
-    Each lesson is related to only one course
-    and has only one unique sequence number
+    Uses `Lesson` model.
+
+    The `litems` field is a `manyToMany` relation field which is associated
+    with `LitemSerializerR` serializer class.
     """
     lid = serializers.IntegerField(required=False,read_only=True)
     litems = LitemSerializerR(many=True)
@@ -33,10 +35,16 @@ class LessonSerializerR(serializers.ModelSerializer):
 
 class LessonSerializerCUD(serializers.ModelSerializer):
     """
-    Serializer for `Lesson` model
+    Serializer for `Lesson` creation, updation, deletion.
 
-    Each lesson is related to only one course
-    and has only one unique sequence number
+    Uses `Lesson` model.
+
+    `course` field is part of `Course` model which contains
+    manyToMany related field called `lessons` to associate
+    multiple `lessons` with a `Course`.
+
+    `course` field allows a user to associate a `lesson` with
+    a `course` during creation of that `lesson`.
     """
     lid = serializers.IntegerField(required=False,read_only=True)
     course = serializers.ChoiceField(choices=Course.objects.all(), required=True, write_only=True)
@@ -60,11 +68,11 @@ class LessonSerializerCUD(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-        for data creation
-        :param validated_data:
-        :return:
+        Method for `lesson` creation.
+
+        Also responsible for adding the created `lesson` to `lessons`
+        field in `Course` model.
         """
-        # for creation
         course = validated_data.pop("course")
         lesson = Lesson(**validated_data)
         lesson.save()
@@ -73,13 +81,15 @@ class LessonSerializerCUD(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         """
-        For `lesson` updation.
+        Method for `lesson` updation.
 
-        It will first check if the lesson exists in any present course,
-        if true then the lesson will be dissociated from that course.
+        On each call, it will first check if target `lesson`
+        exists in any `course` in `Course` model, if true then `lesson`
+        will be dissociated from that `course` and updated `lesson` will be
+        added to `course` defined in update. All steps will happen irrespective of
+        value of `course` field.
 
-        It will add lesson to the defined course.
-        :return:
+        :return: instance
         """
         # update lesson
         instance.lesson_name = validated_data.get('lesson_name', instance.lesson_name)

@@ -5,7 +5,7 @@ from .lessonSerializers import LessonSerializerR
 
 class CourseSerializerRD(serializers.ModelSerializer):
     """
-    Serializer for `Course` model retrieval and deletion.
+    Serializer for data retrieval and deletion from `course` model.
     """
     cid = serializers.IntegerField(required=False, read_only=True)
     course_name = serializers.CharField(required=True, max_length=50)
@@ -30,7 +30,7 @@ class CourseSerializerRD(serializers.ModelSerializer):
 
 class CourseSerializerCU(serializers.ModelSerializer):
     """
-    Serializer for `Course` model creation and updation.
+    Serializer for data creation and updation on `Course` model.
     """
     cid = serializers.IntegerField(required=False, read_only=True)
     course_name = serializers.CharField(required=True, max_length=50)

@@ -3,17 +3,18 @@ from django.db import models
 
 class Litem(models.Model):
     """
-    Lesson item model
+    `LessonItem` model.
 
-    Queryset
-    {
-        liid:   ,
-        litem_name: ,
-        litem_seqnum:   ,
-        litem_desc: ,
-        date_created: ,
-        date_modified:
-    }
+    All fields are required except `lesson_seqnum`.
+
+    :queryset: {
+        liid,
+        litem_name,
+        litem_seqnum,
+        litem_desc,
+        date_created,
+        date_modified
+        }
     """
     liid = models.BigAutoField(primary_key=True)
     litem_name = models.CharField(max_length=50)
@@ -31,18 +32,19 @@ class Litem(models.Model):
 
 class Lesson(models.Model):
     """
-     Lesson in Course model
+     `Lesson` model.
 
-     Queryset
-     {
-        lid: ,
-        lesson_name: ,
-        lesson_seqnum: ,
-        lesson_desc: ,
+     All fields are required except `litems`, `lesson_seqnum`.
+
+     :queryset: {
+        lid,
+        lesson_name,
+        lesson_seqnum,
+        lesson_desc,
         litems:[],
-        date_created: ,
-        date_modified:
-     }
+        date_created,
+        date_modified
+        }
     """
     lid = models.BigAutoField(primary_key=True)
     lesson_name = models.CharField(max_length=50)
@@ -61,18 +63,19 @@ class Lesson(models.Model):
 
 class Course(models.Model):
     """
-    Course table for course service
+    `Course` model.
 
-    Queryset
-    {
-        cid: ,
-        course_name: ,
-        course_description: ,
-        faculty: ,
-        lessons:[],
-        date_created: ,
-        date_modified:
-    }
+    All fields are required except `faculty`, `lessons`.
+
+    :queryset: {
+        cid,
+        course_name,
+        course_description,
+        faculty,
+        lessons,
+        date_created,
+        date_modified
+        }
     """
     cid = models.BigAutoField(primary_key=True)
     course_name = models.CharField(max_length=50)

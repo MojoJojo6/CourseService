@@ -1,8 +1,3 @@
-
-"""
-Refer to doc.org file for documentation of this code.
-"""
-
 from rest_framework import generics
 from courseapp.models import Course
 from .courseSerializers import CourseSerializerCU, CourseSerializerRD
@@ -10,11 +5,9 @@ from .courseSerializers import CourseSerializerCU, CourseSerializerRD
 
 class CourseCView(generics.CreateAPIView):
     """
-    Create a new course
+    View to create a new `course`.
 
-    All fields required except `faculty_id` and `lessons`
-    so the instructor of the course could be decided later
-    and lesson will be assigned to course while creation of lesson itself.
+    Uses `CourseSerializerCU` serializer class.
     """
     queryset = Course.objects.all()
     serializer_class = CourseSerializerCU
@@ -22,9 +15,11 @@ class CourseCView(generics.CreateAPIView):
 
 class CourseRUDView(generics.RetrieveUpdateDestroyAPIView):
     """
-    Perform Read, Update or Destroy operation on Course table
+    View to retrieve, update and delete a `course`.
 
-    LOOKUP BY `cid` (by default)
+    Uses `CourseRDSerializer` serializer class for `course`
+    retrieval, deletion and `CourseCUSerializer` serializer
+    class for updating a `course`.
     """
     queryset = Course.objects.all()
 
@@ -43,7 +38,9 @@ class CourseRUDView(generics.RetrieveUpdateDestroyAPIView):
 
 class CourseListView(generics.ListAPIView):
     """
-    Get list of all the courses
+    View to get list of `course`.
+
+    Uses `CourseSerializerRD` serializer class.
     """
     serializer_class = CourseSerializerRD
     queryset = Course.objects.all()

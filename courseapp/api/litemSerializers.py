@@ -1,14 +1,19 @@
-"""
-Refer to doc.org file for documentation of this code.
-"""
-
 from rest_framework import serializers
 from courseapp.models import Lesson, Litem
 
 
 class LitemSerializerCUD(serializers.ModelSerializer):
     """
-    Serializer for creation and updation of `litem`
+    Serializer to create and update a `litem`.
+
+    Uses `Litem` model.
+
+    `lesson` field is part of `Lesson` model which contains
+    manyToMany related field called `litems` to associate
+    multiple `litems` with a `Lesson`.
+
+    `lesson` field allows a user to associate a `litem` with
+    a `lesson` during creation of that `lesson`.
     """
     liid = serializers.IntegerField(required=False, read_only=True)
     litem_name = serializers.CharField(max_length=20)
@@ -32,9 +37,10 @@ class LitemSerializerCUD(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """
-        create new litem and add it to the associated lesson's litem list.
-        :param validated_data:
-        :return:
+        Method to create a new `litem`.
+
+        Also responsible for adding the created `litem` to `litems`
+        field in `Lesson` model.
         """
         lesson = validated_data.pop("lesson")
         litem = Litem(**validated_data)
@@ -42,27 +48,17 @@ class LitemSerializerCUD(serializers.ModelSerializer):
         lesson.litems.add(litem)
         return litem
 
-    def create(self, validated_data):
-        """
-        for data creation
-        :param validated_data:
-        :return:
-        """
-        # for creation
-        course = validated_data.pop("course")
-        lesson = Lesson(**validated_data)
-        lesson.save()
-        course.lessons.add(lesson)
-        return lesson
-
     def update(self, instance, validated_data):
         """
-        For `litem` updation.
+        Method for `litem` updation.
 
-        It will first check if the litem exists in any present lesson,
-        if true then the litem will be dissociated from that lesson.
+        On each call, it will first check if target `litem`
+        exists in any `lesson` in `Lesson` model, if true then `litem`
+        will be dissociated from that `lesson` and updated `litem` will be
+        added to `lesson` defined in update. All steps will happen irrespective of
+        value of `lesson` field.
 
-        It will add litem to the defined lesson.
+        :return: instance
         :return:
         """
         # update lesson
@@ -85,7 +81,9 @@ class LitemSerializerCUD(serializers.ModelSerializer):
 
 class LitemSerializerR(serializers.ModelSerializer):
     """
-    Serializer for `litem` retrieval and deletion
+    Serializer for `Litem` retrieval.
+
+    Uses `Litem` model.
     """
     liid = serializers.IntegerField(required=False, read_only=True)
     litem_name = serializers.CharField(max_length=20)

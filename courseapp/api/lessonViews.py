@@ -1,12 +1,3 @@
-"""
-TODO user authentication
-TODO response formatting
-"""
-
-"""
-Refer to doc.org file for documentation of this code.
-"""
-
 from rest_framework import generics
 from courseapp.models import Lesson
 from .lessonSerializers import LessonSerializerCUD, LessonSerializerR
@@ -14,9 +5,11 @@ from .lessonSerializers import LessonSerializerCUD, LessonSerializerR
 
 class LessonRUDView(generics.RetrieveUpdateDestroyAPIView):
     """
-    Perform Read/Update/Delete operations on Lesson table
+    View to retrieve, update or delete a `lesson`.
 
-    LOOKUP BY `lid` (by default)
+    Uses `LessonSerializerR` serializer class for `lesson` retrieval,
+    `LessonSerializerCUD` serializer class to create, update and delete
+    a `lesson`.
     """
     queryset = Lesson.objects.all()
 
@@ -28,21 +21,20 @@ class LessonRUDView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class LessonList(generics.ListAPIView):
-    serializer_class = LessonSerializerR
+    """
+    View to get list of all the `lesson` present in `Lesson` model.
 
-    def get_queryset(self):
-        queryset = Lesson.objects.all()
-        """
-        Get list of all the lessons (irrespective of course)
-        """
-        return Lesson.objects.all()
+    Uses `LessonSerializerR` serializer class.
+    """
+    serializer_class = LessonSerializerR
+    queryset = Lesson.objects.all()
 
 
 class LessonCreate(generics.CreateAPIView):
     """
-    Create a new Lesson
+    View to create a new `lesson`.
 
-    All fields required except the `course_id` and `lesson_seqnum`
+    Uses `LessonSerializerCUD` serializer class.
     """
     serializer_class = LessonSerializerCUD
     queryset = Lesson.objects.all()

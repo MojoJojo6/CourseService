@@ -31,6 +31,12 @@ class CourseSerializerRD(serializers.ModelSerializer):
 class CourseSerializerCU(serializers.ModelSerializer):
     """
     Serializer for data creation and updation on `Course` model.
+
+    {
+        "course_name": "",
+        "course_description": "",
+        "faculty": null
+    }
     """
     cid = serializers.IntegerField(required=False, read_only=True)
     course_name = serializers.CharField(required=True, max_length=50)

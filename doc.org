@@ -8,29 +8,31 @@
 *** =Lesson=
 *** =Litem=
 ** API endpoint description table
+/*enrolled/
+/**instructor/
 *** Course
-| description                           | scope (not implemented)             | serializer           | action | request payload | response payload | URI =/courses= + |
-|---------------------------------------+-------------------------------------+----------------------+--------+-----------------+------------------+------------------|
-| create a course                       | admin                               | =courseSerializerCU= | POST   | ={}=            |                  | =/create/=       |
-| retrieve =course= details             | enrolled student, instructor, admin | =courseSerializerRD= | GET    |                 |                  | =/<cid>/=        |
-| retrieve list of courses with details | admin                               | =courseSerializerRD= | GET    |                 |                  | =/=              |
-| update a course                       | faculty                             | =courseSerializerCU= | PUT    | ={}=            |                  | =/<cid>/=        |
-| delete a course                       | admin                               | =courseSerializerRD= | DELETE |                 |                  | =/<cid>/=        |
+| description                               | scope (not implemented)    | action | request payload | response payload | URI =/courses= + |
+|-------------------------------------------+----------------------------+--------+-----------------+------------------+------------------|
+| create a course                           | admin                      | POST   | ={}=            |                  | =/create/=       |
+| retrieve course's details                 | admin, faculty**, student* | GET    |                 |                  | =/<cid>/=        |
+| retrieve list of all courses with details | admin                      | GET    |                 |                  | =/=              |
+| update a course                           | admin                      | PUT    | ={}=            |                  | =/<cid>/=        |
+| delete a course                           | admin                      | DELETE |                 |                  | =/<cid>/=        |
 
 *** Lesson
-| description                                              | scope | serializer | action | request payload                        | response payload | URI =/lessons= + |
-|----------------------------------------------------------+-------+------------+--------+----------------------------------------+------------------+------------------|
-| create a lesson                                          |       |            | POST   | all fields required except =course_id= |                  | =/create/=       |
-| retrieve a lesson details                                |       |            | GET    |                                        |                  | =/<lid>/=        |
-| retrieve list of all lessons with details of each lesson |       |            | GET    |                                        |                  | =/=              |
-| update a lesson                                          |       |            | PUT    |                                        |                  | =/<lid>/=        |
-| delete a lesson                                          |       |            | DELETE |                                        |                  | =/<lid>/=        |
+| description                                              | scope                      | serializer | action | request payload                        | response payload | URI =/lessons= + |
+|----------------------------------------------------------+----------------------------+------------+--------+----------------------------------------+------------------+------------------|
+| create a lesson                                          | admin, faculty**           |            | POST   | all fields required except =course_id= |                  | =/create/=       |
+| retrieve a lesson's details                              | admin, faculty**, student* |            | GET    |                                        |                  | =/<lid>/=        |
+| retrieve list of all lessons with details of each lesson | admin                      |            | GET    |                                        |                  | =/=              |
+| update a lesson                                          | admin, faculty**           |            | PUT    |                                        |                  | =/<lid>/=        |
+| delete a lesson                                          | admin, faculty**           |            | DELETE |                                        |                  | =/<lid>/=        |
 
 *** LessonItem
-| description                                                        | scope | serializer | action | request payload                        | response payload | URI =/litems= + |
-|--------------------------------------------------------------------+-------+------------+--------+----------------------------------------+------------------+-----------------|
-| create a lesson item                                               |       |            | POST   | all fields required except =lesson_id= |                  | =/create/=      |
-| retrieve a lesson item details                                     |       |            | GET    |                                        |                  | =/<llid>/=      |
-| retrieve list of all lessons items with detail of each lesson item |       |            | GET    |                                        |                  | =/=             |
-| update a lesson item                                               |       |            | PUT    |                                        |                  | =/<llid>/=      |
-| delete a lesson item                                               |       |            | DELETE |                                        |                  | =/<llid>/=      |
+| description                                                        | scope                      | action | request payload                        | response payload | URI =/litems= + |
+|--------------------------------------------------------------------+----------------------------+--------+----------------------------------------+------------------+-----------------|
+| create a lesson item                                               | admin, faculty**           | POST   | all fields required except =lesson_id= |                  | =/create/=      |
+| retrieve a lesson item's details                                   | admin, faculty**, student* | GET    |                                        |                  | =/<llid>/=      |
+| retrieve list of all lessons items with detail of each lesson item | admin                      | GET    |                                        |                  | =/=             |
+| update a lesson item                                               | admin, faculty**           | PUT    |                                        |                  | =/<llid>/=      |
+| delete a lesson item                                               | admin, faculty**           | DELETE |                                        |                  | =/<llid>/=      |

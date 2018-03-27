@@ -90,3 +90,26 @@ class Course(models.Model):
 
     def __str__(self):
         return "{}_{}".format(self.cid, self.course_name)
+
+
+class Category(models.Model):
+    """
+    `Category` model
+
+    All fields required except `cat_desc`.
+
+    :queryset: {
+        cat_id,
+        cat_name,
+        cat_desc,
+        courses,
+        date_created,
+        date_modified
+    }
+    """
+    cat_id = models.BigAutoField(primary_key=True)
+    cat_name = models.CharField(max_length=50)
+    cat_desc = models.CharField(max_length=200, null=True, blank=True)
+    courses = models.ManyToManyField(Course)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)

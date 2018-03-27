@@ -1,6 +1,6 @@
 from rest_framework import generics
 from courseapp.models import Course
-from .courseSerializers import CourseSerializerCU, CourseSerializerRD
+from .courseSerializers import CourseSerializerR, CourseSerializerCUD
 
 
 class CourseCView(generics.CreateAPIView):
@@ -10,7 +10,7 @@ class CourseCView(generics.CreateAPIView):
     Uses `CourseSerializerCU` serializer class.
     """
     queryset = Course.objects.all()
-    serializer_class = CourseSerializerCU
+    serializer_class = CourseSerializerCUD
 
 
 class CourseRUDView(generics.RetrieveUpdateDestroyAPIView):
@@ -27,13 +27,13 @@ class CourseRUDView(generics.RetrieveUpdateDestroyAPIView):
         request_method = self.request.method
 
         if request_method == "GET":
-            return CourseSerializerRD
+            return CourseSerializerR
 
         elif request_method == "PATCH" or "PUT":
-            return CourseSerializerCU
+            return CourseSerializerCUD
 
         elif request_method == "DELETE":
-            return CourseSerializerRD
+            return CourseSerializerCUD
 
 
 class CourseListView(generics.ListAPIView):
@@ -42,5 +42,5 @@ class CourseListView(generics.ListAPIView):
 
     Uses `CourseSerializerRD` serializer class.
     """
-    serializer_class = CourseSerializerRD
+    serializer_class = CourseSerializerR
     queryset = Course.objects.all()

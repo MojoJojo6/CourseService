@@ -46,7 +46,7 @@ class LessonSerializerCUD(serializers.ModelSerializer):
     `course` field allows a user to associate a `lesson` with
     a `course` during creation of that `lesson`.
     """
-    lid = serializers.IntegerField(required=False,read_only=True)
+    lid = serializers.IntegerField(required=False, read_only=True)
     course = serializers.ChoiceField(choices=Course.objects.all(), required=True, write_only=True)
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)

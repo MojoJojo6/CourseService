@@ -13,12 +13,17 @@ from .litemViews import \
     LitemList, \
     LitemRUDView
 
+from .categoryView import \
+    CategoryCreate, \
+    CategoryRUDView, \
+    CategoryList
+
 # from django.urls import path
 
 app_name = 'courseapp'
 
 # defining strings which are used to categorise endpoints
-uri_types = ['courses', 'lessons', 'litems']
+uri_types = ['courses', 'lessons', 'litems', 'categories']
 
 urlpatterns = [
     url(r'^{0}/create/$'.format(uri_types[0]), CourseCView.as_view(), name='course-create'),
@@ -32,4 +37,8 @@ urlpatterns = [
     url(r'{0}/create/$'.format(uri_types[2]), LitemCreate.as_view(), name='litem-create'),
     url(r'{0}/(?P<pk>\d+)/$'.format(uri_types[2]), LitemRUDView.as_view(), name='litem-rud'),
     url(r'{0}/$'.format(uri_types[2]), LitemList.as_view(), name='litem-list'),
+
+    url(r'{0}/create/$'.format(uri_types[3]), CategoryCreate.as_view(), name='cat-create'),
+    url(r'{0}/(?P<pk>\d+)/$'.format(uri_types[3]), CategoryRUDView.as_view(), name='cat-rud'),
+    url(r'{0}/$'.format(uri_types[3]), CategoryList.as_view(), name='cat-list'),
 ]

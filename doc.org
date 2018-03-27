@@ -10,6 +10,12 @@
 ** API endpoint description table
 /*enrolled/
 /**instructor/
+*** Category
+| description                                 | scope (not implemented) | action | request payload | response payload | response code | URI =/category= + |
+|---------------------------------------------+-------------------------+--------+-----------------+------------------+---------------+-------------------|
+| get list of all the categories with details | admin, faculty          | GET    |                 |                  |           200 | =/=               |
+|                                             |                         |        |                 |                  |               |                   |
+
 *** Course
 | description                               | scope (not implemented)    | action | request payload                                                | response payload                                                                                                                                                      | response code   | URI =/courses= + |
 |-------------------------------------------+----------------------------+--------+----------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+------------------|

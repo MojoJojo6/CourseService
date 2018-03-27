@@ -10,3 +10,4 @@ class CourseModelAdmin(admin.ModelAdmin):
 admin.site.register(Course)
 admin.site.register(Lesson)
 admin.site.register(Lessons_item)
+admin.site.register(Category)

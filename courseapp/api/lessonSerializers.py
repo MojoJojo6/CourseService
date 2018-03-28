@@ -9,14 +9,15 @@ class LessonSerializerR(serializers.ModelSerializer):
 
     Uses `Lesson` model.
 
-    The `litems` field is a `manyToMany` relation field which is associated
+    The `litems` field is associated
     with `LitemSerializerR` serializer class.
     """
     lid = serializers.IntegerField(required=False,read_only=True)
-    litems = LitemSerializerR(many=True)
+    litems = LitemSerializerR(many=True, read_only=True)
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)
+    lesson_icon_url = serializers.URLField(max_length=200, allow_null=True, required=False)
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
 
@@ -28,6 +29,7 @@ class LessonSerializerR(serializers.ModelSerializer):
             'lesson_name',
             'lesson_seqnum',
             'lesson_desc',
+            'lesson_icon_url',
             'date_created',
             'date_modified',
         ]
@@ -39,18 +41,16 @@ class LessonSerializerCUD(serializers.ModelSerializer):
 
     Uses `Lesson` model.
 
-    `course` field is part of `Course` model which contains
-    manyToMany related field called `lessons` to associate
-    multiple `lessons` with a `Course`.
+    `course` field is part of `Course` model which is a foreign key
+    in `lesson` model.
 
-    `course` field allows a user to associate a `lesson` with
-    a `course` during creation of that `lesson`.
     """
     lid = serializers.IntegerField(required=False, read_only=True)
-    course = serializers.ChoiceField(choices=Course.objects.all(), required=True, write_only=True)
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all())
     lesson_name = serializers.CharField(max_length=20)
     lesson_seqnum = serializers.IntegerField(allow_null=True, required=False)
     lesson_desc = serializers.CharField(max_length=200)
+    lesson_icon_url = serializers.URLField(max_length=200, allow_null=True, required=False)
     date_created = serializers.DateTimeField(read_only=True)
     date_modified = serializers.DateTimeField(read_only=True)
 
@@ -62,50 +62,7 @@ class LessonSerializerCUD(serializers.ModelSerializer):
             'lesson_name',
             'lesson_seqnum',
             'lesson_desc',
+            'lesson_icon_url',
             'date_created',
             'date_modified',
         ]
-
-    def create(self, validated_data):
-        """
-        Method for `lesson` creation.
-
-        Also responsible for adding the created `lesson` to `lessons`
-        field in `Course` model.
-        """
-        course = validated_data.pop("course")
-        lesson = Lesson(**validated_data)
-        lesson.save()
-        course.lessons.add(lesson)
-        return lesson
-
-    def update(self, instance, validated_data):
-        """
-        Method for `lesson` updation.
-
-        On each call, it will first check if target `lesson`
-        exists in any `course` in `Course` model, if true then `lesson`
-        will be dissociated from that `course` and updated `lesson` will be
-        added to `course` defined in update. All steps will happen irrespective of
-        value of `course` field.
-
-        :return: instance
-        """
-        # update lesson
-        instance.lesson_name = validated_data.get('lesson_name', instance.lesson_name)
-        instance.lesson_seqnum = validated_data.get('lesson_seqnum', instance.lesson_seqnum)
-        instance.lesson_desc = validated_data.get('lesson_desc', instance.lesson_desc)
-        instance.save()
-
-        # check if associated with an old course
-        old_course = Course.objects.filter(lessons=instance)
-        if len(old_course) == 1:
-            # dissociate lesson from old course
-            old_course[0].lessons.remove(instance)
-
-        # associate lesson with new selected course
-        new_course = validated_data['course']
-        new_course.lessons.add(instance)
-
-        return instance
-

@@ -4,29 +4,37 @@
 
 * API
 ** Resources
+*** =Category=
 *** =Course=
 *** =Lesson=
 *** =Litem=
 ** API endpoint description table
-/*enrolled/
-/**instructor/
+   /*enrolled/
+   /**instructor/
 *** Category
-| description                                 | scope (not implemented) | action | request payload | response payload | response code | URI =/category= + |
-|---------------------------------------------+-------------------------+--------+-----------------+------------------+---------------+-------------------|
-| get list of all the categories with details | admin, faculty          | GET    |                 |                  |           200 | =/=               |
-|                                             |                         |        |                 |                  |               |                   |
+| description                                 | scope (not implemented) | action | request payload                                          | response payload                                                                                                                      | response code  | URI =/category= + |
+|---------------------------------------------+-------------------------+--------+----------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------+----------------+-------------------|
+| create a category                           | admin                   | POST   | ={"cat_name": "", "cat_desc": "", "cat_icon_url": null}= | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": ""}=                         | 201 Created    | =/create/=        |
+| retrieve category details                   | admin, faculty**        | GET    |                                                          | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}=            | 200 OK         | =/<cat_id>/=      |
+| get list of all the categories with details | admin, faculty**        | GET    |                                                          | =[{"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}, ... ...]= | 200 OK         | =/=               |
+| update a category                           | admin                   | PUT    | ={"cat_name": "", "cat_desc": "", "cat_icon_url": null}= | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}=            | 200 OK         | =/<cat_id>/=      |
+| delete a category^{#}                          | admin                   | DELETE |                                                          |                                                                                                                                       | 204 No Content | =/<cat_id>/=      |
+
+/#If there are courses associated with a category, then you can't delete that category until you delete or dissociate all the related courses./
 
 *** Course
-| description                               | scope (not implemented)    | action | request payload                                                                                       | response payload                                                                                                                                                      | response code   | URI =/courses= + |
-|-------------------------------------------+----------------------------+--------+-------------------------------------------------------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+------------------|
-| create a course                           | admin                      | POST   | ={"course_name": "","course_description": "","faculty": null, "course_icon_url": null, "category": }= | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "category": , "date_created": "", "date_modified": ""}=              | 201, CREATED    | =/create/=       |
-| retrieve course's details                 | admin, faculty**, student* | GET    |                                                                                                       | ={"cid": , "course_name": "", "course_description": "", "lessons":[], "faculty": null, "date_created": "", "date_modified": ""}=                                      | 200, OK         | =/<cid>/=        |
-| retrieve list of all courses with details | admin                      | GET    |                                                                                                       | =[{"cid": , "course_name": "", "course_description": "", "faculty": null, "lessons": [], "date_created": "", "date_modified": ""}, {"cid": , "course_name": "", ...]= | 200, OK         | =/=              |
-| update a course                           | admin                      | PUT    | ={"course_name": "","course_description": "","faculty": null}=                                        | ={"cid": ,"course_name": "", "course_description": "", "faculty": null,"date_created": "", "date_modified": ""}=                                                      | 200, OK         | =/<cid>/=        |
-| delete a course                           | admin                      | DELETE |                                                                                                       |                                                                                                                                                                       | 204, NO CONTENT | =/<cid>/=        |
+| description                               | scope (not implemented)    | action | request payload                                                                                           | response payload                                                                                                                                                    | response code   | URI =/courses= + |
+|-------------------------------------------+----------------------------+--------+-----------------------------------------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------+-----------------+------------------|
+| create a course                           | admin                      | POST   | ={"course_name": "","course_description": "","faculty": null, "course_icon_url": null, "category":<pk> }= | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 201, CREATED    | =/create/=       |
+| retrieve course's details                 | admin, faculty**, student* | GET    |                                                                                                           | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 200, OK         | =/<cid>/=        |
+| retrieve list of all courses with details | admin                      | GET    |                                                                                                           | =[{"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}, ... ...]= | 200, OK         | =/=              |
+| update a course                           | admin                      | PUT    | ={"course_name": "","course_description": "","faculty": null, "course_icon_url": null, "category":<pk> }= | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 200, OK         | =/<cid>/=        |
+| delete a course^{#}                          | admin                      | DELETE |                                                                                                           |                                                                                                                                                                     | 204, NO CONTENT | =/<cid>/=        |
+
+/# If there are lessons associated with a course, then you can't delete that course until you delete or dissociate all the related lessons./
 
 *** Lesson
-| description                                              | scope (not implemented)                     | serializer | action | request payload                                                                                        | response payload | URI =/lessons= + |
+| description                                              | scope (not implemented)    | serializer | action | request payload                                                                                        | response payload | URI =/lessons= + |
 |----------------------------------------------------------+----------------------------+------------+--------+--------------------------------------------------------------------------------------------------------+------------------+------------------|
 | create a lesson                                          | admin, faculty**           |            | POST   | ={"course": 1, "lesson_name": " ", "lesson_seqnum": null, "lesson_desc": " ", "lesson_icon_url": " "}= |                  | =/create/=       |
 | retrieve a lesson's details                              | admin, faculty**, student* |            | GET    |                                                                                                        |                  | =/<lid>/=        |

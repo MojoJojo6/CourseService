@@ -2,18 +2,6 @@
 from rest_framework.test import APITestCase
 from rest_framework import status
 from django.urls import reverse
-#
-from .models import Course
-from .api.courseViews import CourseCView
-
-# TODO don't allow courses with same name taught by same faculty
-# TODO create a faculty member and add it to course
-# TODO update a course details
-# TODO delete a course
-# TODO get list of courses
-
-import json
-import time
 
 class Utils():
     @staticmethod
@@ -42,6 +30,20 @@ class Utils():
         case.assertEqual(response.status_code, status.HTTP_201_CREATED)
         print("PASS, test_create_new_course")
 
+    @staticmethod
+    def testCreateLesson(case):
+        url = reverse("courseapp:lesson-create")  # namespace:viewName ref[1]
+        data = {
+            "course": 1,
+            "lesson_name": "test lesson",
+            "lesson_seqnum": 1,
+            "lesson_desc": "testing is fun",
+            "lesson_icon_url": "http://someicon.com/url.jpeg"
+        }
+        response = case.client.post(url, data, format='json')
+        # making sure that course is created successfully
+        case.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        print("PASS, test_create_new_lesson")
 
 class CategoryCreationAPITestCase(APITestCase):
     def test_create_new_category(self):
@@ -83,55 +85,32 @@ class LessonCreationAPITest(APITestCase):
         create a new lesson.
         :return:
         """
-        url = reverse("courseapp:lesson-create")  # namespace:viewName ref[1]
-        data = {
-            "course": 1,
-            "lesson_name": "test lesson",
-            "lesson_seqnum": 1,
-            "lesson_desc": "testing is fun",
-            "lesson_icon_url": "http://someicon.com/url.jpeg"
-        }
-        response = self.client.post(url, data, format='json')
-        # making sure that course is created successfully
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        print("PASS, test_create_new_lesson")
+        Utils.testCreateLesson(self)
 
 
 class LitemCreationAPITest(APITestCase):
     def setUp(self):
-        pass
+        Utils.testCreateCategory(self)
+        Utils.testCreateCourse(self)
+        Utils.testCreateLesson(self)
+
     def test_create_new_litem(self):
-        pass
+        url = reverse("courseapp:litem-create")  # namespace:viewName ref[1]
+        data = {
+            "lesson": 1,
+            "litem_name": "test litem",
+            "litem_seqnum": 1,
+            "litem_icon_url": "http://justfun.com/a.jpeg",
+            "litem_asset_url": "http://somefunny.com/",
+            "litem_desc": "testing testing fun"
+        }
+        response = self.client.post(url, data, format='json')
+        # making sure that course is created successfully
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        print("PASS, test_create_new_litem")
 
 
 
-# class CourseRetrievalAPITestCase(APITestCase):
-#     def setUp(self):
-#         """
-#         create 100 distinct courses
-#         :return:
-#         """
-#         url = reverse("courseapp:course-create")  # namespace:viewName ref[1]
-#         for i in range(100):
-#             data = {'course_name': 'test course {}'.format(i), 'course_description': "test course for testing"}
-#             response = self.client.post(url, data, format='json')
-#             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-#
-#     def test_fetch_list_of_courses(self):
-#         """
-#         Fetch list of all the courses
-#         :return:
-#         """
-#         url = reverse("courseapp:course-list")
-#         response = self.client.get(url)
-#
-#         self.assertEqual(response.status_code, status.HTTP_200_OK)
-#
-#         # checking the total count of courses created
-#         self.assertEqual(len(response.data), 100)
-#
-#         print("PASS, test_fetch_list_of_courses")
-#
 #     def test_retrieve_course_by_cid(self):
 #         """
 #         Fetch course details by `cid`

@@ -5,6 +5,13 @@
 * API
 ** Resources
 *** =Category=
+    The following URI will take a list of mutiple course IDs, responds with a list of course details of corresponding ids.
+
+ | URI                    | post request payload          | response payload                                            |
+ |------------------------+-------------------------------+-------------------------------------------------------------|
+ | =/courses/getDetails/= | ={"list":[cid1, cid2, cid3]}= | =[<cid1>:{---details---}, <cid2>:{---details---}, ... ...]= |
+ |                        |                               |                                                             |
+
 *** =Course=
 *** =Lesson=
 *** =Litem=
@@ -18,7 +25,7 @@
 | retrieve category details                   | admin, faculty**        | GET    |                                                          | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}=            | 200 OK         | =/<cat_id>/=      |
 | get list of all the categories with details | admin, faculty**        | GET    |                                                          | =[{"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}, ... ...]= | 200 OK         | =/=               |
 | update a category                           | admin                   | PUT    | ={"cat_name": "", "cat_desc": "", "cat_icon_url": null}= | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}=            | 200 OK         | =/<cat_id>/=      |
-| delete a category^{#}                          | admin                   | DELETE |                                                          |                                                                                                                                       | 204 No Content | =/<cat_id>/=      |
+| delete a category^{#}                       | admin                   | DELETE |                                                          |                                                                                                                                       | 204 No Content | =/<cat_id>/=      |
 
 /#If there are courses associated with a category, then you can't delete that category until you delete or dissociate all the related courses./
 

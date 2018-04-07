@@ -109,8 +109,19 @@ class LitemCreationAPITest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         print("PASS, test_create_new_litem")
 
+class CourseBulkRetrievalTest(APITestCase):
+    def setUp(self):
+        Utils.testCreateCourse(self)
+        Utils.testCreateCourse(self)
 
-
+    def test_bulk_course_retrieval(self):
+        url = reverse("courseapp:course-bulk-retrieve")
+        data = {
+            "list": [1, 2]
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        print("PASS, test_bulk_course_retrieval")
 #     def test_retrieve_course_by_cid(self):
 #         """
 #         Fetch course details by `cid`

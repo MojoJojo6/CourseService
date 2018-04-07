@@ -2,7 +2,7 @@
 #+DATE: Feb 25, 2018
 #+TITLE: Documentation for Course Service
 
-* API
+* API description
 ** Resources
 *** =Category=
     The following URI will take a list of mutiple course IDs, responds with a list of course details of corresponding ids.

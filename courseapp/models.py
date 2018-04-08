@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import (
+    AbstractBaseUser,BaseUserManager,
+)
 
 """
     Litem points to a lesson, lesson points to a course, course points to a category.
@@ -143,3 +146,55 @@ class Litem(models.Model):
 
     def __str__(self):
         return "{}__{}-{}".format(self.lesson, self.litem_seqnum, self.litem_name)
+
+class UserManager(BaseUserManager):
+    def create(self, **validated_data):
+
+        if not validated_data["email_id"]:
+            raise ValueError("Email Id is required")
+        if validated_data["role"] is None:
+            raise ValueError("Role is required")
+
+        user_obj = self.model(email_id=self.normalize_email(validated_data["email_id"]))
+        user_obj.role = validated_data["role"]
+        user_obj.staff = validated_data["staff"]
+        user_obj.admin = validated_data["admin"]
+        user_obj.active = validated_data["active"]
+        user_obj.save(using=self.db)
+        return user_obj
+
+
+class User(AbstractBaseUser):
+    roles = [(0, "Admin"), (1, "Faculty"), (2, "Student")]
+
+    email_id = models.EmailField(max_length=255, unique=True)
+    role = models.IntegerField(choices=roles)
+    active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+    date_modified = models.DateTimeField(auto_now=True)
+
+    USERNAME_FIELD = 'email_id'
+    REQUIRED_FIELDS = ['role']
+
+    objects = UserManager()
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
+
+    @property
+    def is_staff(self):
+        return self.staff
+
+    @property
+    def is_admin(self):
+        return self.admin
+
+    """String Function for All CharField in User Model"""
+
+    def __str__(self):
+        return self.email_id

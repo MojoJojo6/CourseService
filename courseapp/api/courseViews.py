@@ -1,6 +1,7 @@
 from rest_framework import generics, response
 from courseapp.models import Course
 from .courseSerializers import CourseSerializerR, CourseSerializerCUD, CourseSerializerBulkR
+from rest_framework.mixins import CreateModelMixin
 
 
 class CourseCView(generics.CreateAPIView):
@@ -46,17 +47,20 @@ class CourseListView(generics.ListAPIView):
     queryset = Course.objects.all()
 
 
-class CourseBulkView(generics.ListCreateAPIView):
-    serializer_class = CourseSerializerBulkR
+class CourseBulkView(generics.CreateAPIView):
 
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        ls = []
-        import pdb
-        pdb.set_trace()
-        for i in data:
-            ls.append(Course.objects.filter(cid=data[i]))
-        
-        Course.objects.filter(cid=data[0])
+    def create(self, request, *args, **kwargs):
+        data = self.request.data
+        course_objects = []
+        for cid in data["cid"]:
+            course_objects.append(Course.objects.get(cid=cid))
 
-        pass
+        serializer = self.get_serializer_class()
+        headers = self.get_success_headers(serializer.data)
+        return response.Response(data=serializer(course_objects, many=True).data, status=200, headers=headers)
+
+    def get_queryset(self):
+        return Course.objects.all()
+
+    def get_serializer_class(self, many=True):
+        return CourseSerializerBulkR

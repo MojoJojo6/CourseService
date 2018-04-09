@@ -67,7 +67,7 @@ class CourseSerializerBulkR(serializers.ModelSerializer):
     """
     Serializer for data retrieval from `course` model.
     """
-    cid = serializers.IntegerField(required=False, read_only=True)
+    cid = serializers.IntegerField(required=True)
     course_name = serializers.CharField(read_only=True)
     course_description = serializers.CharField(max_length=200, read_only=True)
     course_icon_url = serializers.URLField(read_only=True)

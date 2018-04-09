@@ -63,4 +63,5 @@ class CourseBulkView(generics.CreateAPIView):
         return Course.objects.all()
 
     def get_serializer_class(self, many=True):
+        # This method is actually looking a little redundant
         return CourseSerializerBulkR

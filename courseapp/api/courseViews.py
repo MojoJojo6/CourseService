@@ -1,6 +1,6 @@
-from rest_framework import generics
+from rest_framework import generics, response
 from courseapp.models import Course
-from .courseSerializers import CourseSerializerR, CourseSerializerCUD
+from .courseSerializers import CourseSerializerR, CourseSerializerCUD, CourseSerializerBulkR
 
 
 class CourseCView(generics.CreateAPIView):
@@ -44,3 +44,19 @@ class CourseListView(generics.ListAPIView):
     """
     serializer_class = CourseSerializerR
     queryset = Course.objects.all()
+
+
+class CourseBulkView(generics.ListCreateAPIView):
+    serializer_class = CourseSerializerBulkR
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        ls = []
+        import pdb
+        pdb.set_trace()
+        for i in data:
+            ls.append(Course.objects.filter(cid=data[i]))
+        
+        Course.objects.filter(cid=data[0])
+
+        pass

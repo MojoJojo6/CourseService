@@ -62,3 +62,29 @@ class CourseSerializerCUD(serializers.ModelSerializer):
             'date_created',
             'date_modified',
         ]
+
+class CourseSerializerBulkR(serializers.ModelSerializer):
+    """
+    Serializer for data retrieval from `course` model.
+    """
+    cid = serializers.IntegerField(required=False, read_only=True)
+    course_name = serializers.CharField(read_only=True)
+    course_description = serializers.CharField(max_length=200, read_only=True)
+    course_icon_url = serializers.URLField(read_only=True)
+    faculty = serializers.IntegerField(required=False, allow_null=True, read_only=True)
+    lessons = LessonSerializerR(many=True, read_only=True)
+    date_created = serializers.DateTimeField(read_only=True)
+    date_modified = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Course
+        fields = [
+            'cid',
+            'course_name',
+            'course_description',
+            'course_icon_url',
+            'faculty',
+            'lessons',
+            'date_created',
+            'date_modified',
+        ]

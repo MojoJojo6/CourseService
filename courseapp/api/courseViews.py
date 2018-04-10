@@ -47,21 +47,20 @@ class CourseListView(generics.ListAPIView):
     queryset = Course.objects.all()
 
 
-class CourseBulkView(generics.CreateAPIView):
+class CourseBulkView(generics.GenericAPIView):
+    """
+    View to retrieve a list of courses.
 
-    def create(self, request, *args, **kwargs):
+    ! overriding `post` method
+    """
+
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializerBulkR
+
+    def post(self, request, *args, **kwargs):
         data = self.request.data
         course_objects = []
-        for cid in data["cid"]:
+        for cid in data["list"]:
             course_objects.append(Course.objects.get(cid=cid))
-
         serializer = self.get_serializer_class()
-        headers = self.get_success_headers(serializer.data)
-        return response.Response(data=serializer(course_objects, many=True).data, status=200, headers=headers)
-
-    def get_queryset(self):
-        return Course.objects.all()
-
-    def get_serializer_class(self, many=True):
-        # This method is actually looking a little redundant
-        return CourseSerializerBulkR
+        return response.Response(data=serializer(course_objects, many=True).data, status=200)

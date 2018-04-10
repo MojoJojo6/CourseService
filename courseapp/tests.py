@@ -111,6 +111,7 @@ class LitemCreationAPITest(APITestCase):
 
 class CourseBulkRetrievalTest(APITestCase):
     def setUp(self):
+        Utils.testCreateCategory(self)
         Utils.testCreateCourse(self)
         Utils.testCreateCourse(self)
 

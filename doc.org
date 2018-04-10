@@ -5,14 +5,13 @@
 * API description
 ** Resources
 *** =Category=
+*** =Course=
     The following URI will take a list of mutiple course IDs, responds with a list of course details of corresponding ids.
 
- | URI                    | post request payload          | response payload                                            |
- |------------------------+-------------------------------+-------------------------------------------------------------|
- | =/courses/getDetails/= | ={"list":[cid1, cid2, cid3]}= | =[<cid1>:{---details---}, <cid2>:{---details---}, ... ...]= |
- |                        |                               |                                                             |
-
-*** =Course=
+      | description                         | scope (not implemented)    | action | request payload               | response payload                                            | URI =/courses/=        |
+      |-------------------------------------+----------------------------+--------+-------------------------------+-------------------------------------------------------------+------------------------|
+      | retrieve a list of selected courses | admin, faculty**, student* | POST   | ={"list":[cid1, cid2, cid3]}= | =[<cid1>:{---details---}, <cid2>:{---details---}, ... ...]= | =/courses/getDetails/= |
+      |                                     |                            |        |                               |                                                             |                        |
 *** =Lesson=
 *** =Litem=
 ** API endpoint description table
@@ -36,7 +35,7 @@
 | retrieve course's details                 | admin, faculty**, student* | GET    |                                                                                                           | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 200, OK         | =/<cid>/=        |
 | retrieve list of all courses with details | admin                      | GET    |                                                                                                           | =[{"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}, ... ...]= | 200, OK         | =/=              |
 | update a course                           | admin                      | PUT    | ={"course_name": "","course_description": "","faculty": null, "course_icon_url": null, "category":<pk> }= | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 200, OK         | =/<cid>/=        |
-| delete a course^{#}                          | admin                      | DELETE |                                                                                                           |                                                                                                                                                                     | 204, NO CONTENT | =/<cid>/=        |
+| delete a course^{#}                       | admin                      | DELETE |                                                                                                           |                                                                                                                                                                     | 204, NO CONTENT | =/<cid>/=        |
 
 /# If there are lessons associated with a course, then you can't delete that course until you delete or dissociate all the related lessons./
 

@@ -1,7 +1,6 @@
 from rest_framework import generics, response
 from courseapp.models import Course
 from .courseSerializers import CourseSerializerR, CourseSerializerCUD, CourseSerializerBulkR
-from rest_framework.mixins import CreateModelMixin
 
 
 class CourseCView(generics.CreateAPIView):
@@ -59,8 +58,6 @@ class CourseBulkView(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         data = self.request.data
-        course_objects = []
-        for cid in data["list"]:
-            course_objects.append(Course.objects.get(cid=cid))
+        course_objects = Course.objects.filter(cid__in=data['list'])
         serializer = self.get_serializer_class()
         return response.Response(data=serializer(course_objects, many=True).data, status=200)

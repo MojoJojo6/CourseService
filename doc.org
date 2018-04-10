@@ -2,10 +2,16 @@
 #+DATE: Feb 25, 2018
 #+TITLE: Documentation for Course Service
 
-* API
+* API description
 ** Resources
 *** =Category=
 *** =Course=
+    The following URI will take a list of mutiple course IDs, responds with a list of course details of corresponding ids.
+
+      | description                         | scope (not implemented)    | action | request payload               | response payload                                            | URI =/courses/=        |
+      |-------------------------------------+----------------------------+--------+-------------------------------+-------------------------------------------------------------+------------------------|
+      | retrieve a list of selected courses | admin, faculty**, student* | POST   | ={"list":[cid1, cid2, cid3]}= | =[<cid1>:{---details---}, <cid2>:{---details---}, ... ...]= | =/courses/getDetails/= |
+      |                                     |                            |        |                               |                                                             |                        |
 *** =Lesson=
 *** =Litem=
 ** API endpoint description table
@@ -18,7 +24,7 @@
 | retrieve category details                   | admin, faculty**        | GET    |                                                          | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}=            | 200 OK         | =/<cat_id>/=      |
 | get list of all the categories with details | admin, faculty**        | GET    |                                                          | =[{"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}, ... ...]= | 200 OK         | =/=               |
 | update a category                           | admin                   | PUT    | ={"cat_name": "", "cat_desc": "", "cat_icon_url": null}= | ={"cat_id": , "cat_name": "", "cat_desc": "", "cat_icon_url": null, "date_created": "", "date_modified": "", courses: []}=            | 200 OK         | =/<cat_id>/=      |
-| delete a category^{#}                          | admin                   | DELETE |                                                          |                                                                                                                                       | 204 No Content | =/<cat_id>/=      |
+| delete a category^{#}                       | admin                   | DELETE |                                                          |                                                                                                                                       | 204 No Content | =/<cat_id>/=      |
 
 /#If there are courses associated with a category, then you can't delete that category until you delete or dissociate all the related courses./
 
@@ -29,7 +35,7 @@
 | retrieve course's details                 | admin, faculty**, student* | GET    |                                                                                                           | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 200, OK         | =/<cid>/=        |
 | retrieve list of all courses with details | admin                      | GET    |                                                                                                           | =[{"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}, ... ...]= | 200, OK         | =/=              |
 | update a course                           | admin                      | PUT    | ={"course_name": "","course_description": "","faculty": null, "course_icon_url": null, "category":<pk> }= | ={"cid": ,"course_name": "", "course_description": "", "faculty": null, "course_icon_url": null, "date_created": "", "date_modified": "", "lessons":[]}=            | 200, OK         | =/<cid>/=        |
-| delete a course^{#}                          | admin                      | DELETE |                                                                                                           |                                                                                                                                                                     | 204, NO CONTENT | =/<cid>/=        |
+| delete a course^{#}                       | admin                      | DELETE |                                                                                                           |                                                                                                                                                                     | 204, NO CONTENT | =/<cid>/=        |
 
 /# If there are lessons associated with a course, then you can't delete that course until you delete or dissociate all the related lessons./
 

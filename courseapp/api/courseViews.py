@@ -1,6 +1,6 @@
-from rest_framework import generics
+from rest_framework import generics, response
 from courseapp.models import Course
-from .courseSerializers import CourseSerializerR, CourseSerializerCUD
+from .courseSerializers import CourseSerializerR, CourseSerializerCUD, CourseSerializerBulkR
 
 
 class CourseCView(generics.CreateAPIView):
@@ -44,3 +44,20 @@ class CourseListView(generics.ListAPIView):
     """
     serializer_class = CourseSerializerR
     queryset = Course.objects.all()
+
+
+class CourseBulkView(generics.GenericAPIView):
+    """
+    View to retrieve a list of courses.
+
+    ! overriding `post` method
+    """
+
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializerBulkR
+
+    def post(self, request, *args, **kwargs):
+        data = self.request.data
+        course_objects = Course.objects.filter(cid__in=data['list'])
+        serializer = self.get_serializer_class()
+        return response.Response(data=serializer(course_objects, many=True).data, status=200)

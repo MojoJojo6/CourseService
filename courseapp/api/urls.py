@@ -2,7 +2,9 @@ from django.conf.urls import url
 from .courseViews import \
     CourseCView, \
     CourseRUDView, \
-    CourseListView
+    CourseListView, \
+    CourseBulkView
+
 from .lessonViews import \
     LessonCreate, \
     LessonRUDView, \
@@ -26,6 +28,7 @@ app_name = 'courseapp'
 uri_types = ['courses', 'lessons', 'litems', 'categories']
 
 urlpatterns = [
+    url(r'^{0}/getbulk/$'.format(uri_types[0]), CourseBulkView.as_view(), name='course-bulk-retrieve'),
     url(r'^{0}/create/$'.format(uri_types[0]), CourseCView.as_view(), name='course-create'),
     url(r'{0}/(?P<pk>\d+)/$'.format(uri_types[0]), CourseRUDView.as_view(), name='course-rud'),
     url(r'^{0}/$'.format(uri_types[0]), CourseListView.as_view(), name='course-list'),

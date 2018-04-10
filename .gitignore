@@ -106,3 +106,5 @@ ENV/
 # org-cache
 *.org~
 
+# pycharm settings
+.idea

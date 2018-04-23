@@ -10,7 +10,7 @@
 
       | description                         | scope (not implemented)    | action | request payload               | response payload                                            | URI =/courses/=        |
       |-------------------------------------+----------------------------+--------+-------------------------------+-------------------------------------------------------------+------------------------|
-      | retrieve a list of selected courses | admin, faculty**, student* | POST   | ={"list":[cid1, cid2, cid3]}= | =[<cid1>:{---details---}, <cid2>:{---details---}, ... ...]= | =/courses/getDetails/= |
+      | retrieve a list of selected courses | admin, faculty**, student* | POST   | ={"list":[cid1, cid2, cid3]}= | =[{---object details---}, {---object details---}, ... ...]= | =getbulk/= |
       |                                     |                            |        |                               |                                                             |                        |
 *** =Lesson=
 *** =Litem=

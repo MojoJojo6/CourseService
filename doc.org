@@ -1,6 +1,6 @@
 #+AUTHOR: Raghav Mittal, Nikhita Agrawal
 #+DATE: Feb 25, 2018
-#+TITLE: Documentation for Course Service
+#+TITLE: API Endpoints Description
 
 * API description
 ** Resources

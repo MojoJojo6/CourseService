@@ -25,7 +25,7 @@ SECRET_KEY = '9*$wf#s-xy9ehk7w52s2-p7c&!)w0(o#5ef8dvh4!!wjp8_d*@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.232.39.58', '127.0.0.1']
+ALLOWED_HOSTS = ['13.232.29.105', '127.0.0.1']
 
 AUTH_USER_MODEL = 'courseapp.User'
 
